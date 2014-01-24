@@ -20,7 +20,7 @@ namespace Perception
         {
             this.m_2DRenderUtilities = twodRenderUtilities;
             this.m_CubeRenderer = cubeRenderer;
-            this.m_PlayerTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Terrain");
+            this.m_PlayerTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Blue");
 
             this.X = 5.5f;
             this.Y = 1f;
