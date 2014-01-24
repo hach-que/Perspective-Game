@@ -14,7 +14,9 @@
     <Reference Include="Perception.Content" />
   </References>
   <Files>
+    <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
+    <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="MoveDownAction.cs" />
     <Compile Include="MoveLeftAction.cs" />

@@ -12,6 +12,8 @@ namespace Perception
         {
             this.Bind<IEntityFactory>().ToFactory();
 
+            this.Bind<ICubeRenderer>().To<DefaultCubeRenderer>();
+
             this.Bind<IEventBinder<IGameContext>>().To<PerceptionEventBinder>();
         }
     }

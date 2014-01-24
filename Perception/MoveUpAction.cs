@@ -16,7 +16,10 @@ namespace Perception
                 return;
             }
 
-            player.Y -= 4;
+            if (player.Z >= 0)
+            {
+                player.Z -= 0.1f;
+            }
         }
 	}
 }
