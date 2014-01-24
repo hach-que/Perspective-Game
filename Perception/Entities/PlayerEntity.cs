@@ -115,6 +115,21 @@ namespace Perception
             }
         }
 
+        public bool IsOnFloor(IGameContext gameContext)
+        {
+            var world = (PerceptionWorld)gameContext.World;
+            try
+            {
+                var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
+
+                return this.Y == height;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return false;
+            }
+        }
+
         private void AdjustHeight(IGameContext gameContext)
         {
             var world = (PerceptionWorld)gameContext.World;

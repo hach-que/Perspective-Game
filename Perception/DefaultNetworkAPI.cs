@@ -24,6 +24,7 @@ namespace Perception
             }
             this.m_MxDispatcher.MessageReceived += this.OnMessageReceived;
             this.m_MxDispatcher.ClientDisconnected += this.OnClientDisconnected;
+            this.m_MxDispatcher.ClientDisconnectWarning += this.OnClientDisconnectWarning;
 
             this.m_MessageEvents = new Dictionary<string, Action<string>>();
 
@@ -63,7 +64,25 @@ namespace Perception
 
         public void Update()
         {
+            this.ClientDisconnectAccumulator = 0;
             this.m_MxDispatcher.Update();
+        }
+
+        public float ClientDisconnectAccumulator
+        {
+            get;
+            set;
+        }
+
+        public bool Disconnected
+        {
+            get;
+            set;
+        }
+
+        private void OnClientDisconnectWarning(object sender, MxDisconnectEventArgs e)
+        {
+            this.ClientDisconnectAccumulator = e.DisconnectAccumulator;
         }
 
         private void OnMessageReceived(object sender, MxMessageEventArgs e)
@@ -78,7 +97,7 @@ namespace Perception
 
         private void OnClientDisconnected(object sender, MxClientEventArgs e)
         {
-            Console.WriteLine("client disconnected! D:");
+            this.Disconnected = true;
         }
     }
 }

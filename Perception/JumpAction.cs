@@ -16,8 +16,10 @@ namespace Perception
                 return;
             }
 
-            // TODO: Check if player can jump.
-            player.YSpeed = 0.85f;
+            if (player.IsOnFloor(context))
+            {
+                player.YSpeed = 0.85f;
+            }
         }
 	}
 }

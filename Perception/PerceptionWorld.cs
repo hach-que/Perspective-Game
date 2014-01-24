@@ -157,12 +157,27 @@ namespace Perception
                     new Vector2(10, 30),
                     "Running at " + gameContext.FPS + " FPS; " + gameContext.FrameCount + " frames counted so far",
                     this.m_DefaultFont);
+
+                if (this.m_NetworkAPI.ClientDisconnectAccumulator > 0)
+                {
+                    this.m_2DRenderUtilities.RenderText(
+                        renderContext,
+                        new Vector2(10, 50),
+                        "Client disconnect accumulator: " + this.m_NetworkAPI.ClientDisconnectAccumulator,
+                        this.m_DefaultFont,
+                        textColor: Color.Red);
+                }
             }
         }
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
             this.m_NetworkAPI.Update();
+
+            if (this.m_NetworkAPI.Disconnected)
+            {
+                gameContext.Game.Exit();
+            }
         }
     }
 }
