@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Name="Perception" Path="Perception" Type="App">
+  <References>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="protobuf-net" />
+    <Reference Include="Ninject" />
+    <Reference Include="MonoGame" />
+    <Reference Include="Protogame" />
+    <Reference Include="Protogame.ThirdParty" />
+    <Reference Include="Perception.Content" />
+  </References>
+  <Files>
+    <Compile Include="Program.cs" />
+    <Compile Include="PerceptionGame.cs" />
+    <Compile Include="PerceptionWorld.cs" />
+    <Compile Include="PerceptionActivity.cs" />
+    <None Include="Properties/AndroidManifest.xml" />
+  </Files>
+</Project>
