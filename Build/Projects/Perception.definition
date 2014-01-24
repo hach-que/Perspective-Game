@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Name="Perception" Path="Perception" Type="App">
   <References>
     <Reference Include="System" />
@@ -14,10 +14,18 @@
     <Reference Include="Perception.Content" />
   </References>
   <Files>
-    <Compile Include="Program.cs" />
-    <Compile Include="PerceptionGame.cs" />
-    <Compile Include="PerceptionWorld.cs" />
+    <Compile Include="Entities\PlayerEntity.cs" />
+    <Compile Include="IEntityFactory.cs" />
+    <Compile Include="MoveDownAction.cs" />
+    <Compile Include="MoveLeftAction.cs" />
+    <Compile Include="MoveRightAction.cs" />
+    <Compile Include="MoveUpAction.cs" />
     <Compile Include="PerceptionActivity.cs" />
-    <None Include="Properties/AndroidManifest.xml" />
+    <Compile Include="PerceptionEventBinder.cs" />
+    <Compile Include="PerceptionGame.cs" />
+    <Compile Include="PerceptionIoCModule.cs" />
+    <Compile Include="PerceptionWorld.cs" />
+    <Compile Include="Program.cs" />
+    <None Include="Properties\AndroidManifest.xml" />
   </Files>
 </Project>

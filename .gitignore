@@ -1,0 +1,6 @@
+#dfjaf
+bin
+obj
+
+*.sln
+*.csproj
