@@ -4,11 +4,12 @@ namespace Perception
 
     using Protogame;
 
-    public class PerceptionGame : CoreGame<PerceptionWorld, Default3DWorldManager>
+    public class PerceptionGame : CoreGame<MenuWorld, Default3DWorldManager>
     {
         public PerceptionGame(StandardKernel kernel)
             : base(kernel)
         {
+            this.IsMouseVisible = true;
         }
 
         protected override void LoadContent()

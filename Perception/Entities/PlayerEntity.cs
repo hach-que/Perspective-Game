@@ -2,6 +2,7 @@ using System;
 using Protogame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace Perception
 {
@@ -13,18 +14,46 @@ namespace Perception
 
         private readonly TextureAsset m_PlayerTexture;
 
+        private readonly INetworkAPI m_NetworkAPI;
+
         public PlayerEntity(
             I2DRenderUtilities twodRenderUtilities,
             ICubeRenderer cubeRenderer,
-            IAssetManagerProvider assetManagerProvider)
+            IAssetManagerProvider assetManagerProvider,
+            INetworkAPI networkAPI,
+            bool isRedColor,
+            bool locallyOwned)
         {
+            this.m_NetworkAPI = networkAPI;
             this.m_2DRenderUtilities = twodRenderUtilities;
             this.m_CubeRenderer = cubeRenderer;
-            this.m_PlayerTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Blue");
+            this.m_PlayerTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture." + (isRedColor ? "Red" : "Blue"));
 
             this.X = 5.5f;
             this.Y = 1f;
             this.Z = 5.5f;
+
+            this.LocallyOwned = locallyOwned;
+
+            if (!this.LocallyOwned)
+            {
+                networkAPI.ListenForMessage(
+                    "player update",
+                    a =>
+                    {
+                        var values = a.Split('|').Select(x => float.Parse(x)).ToArray();
+
+                        this.X = values[0];
+                        this.Y = values[1];
+                        this.Z = values[2];
+                    });
+            }
+        }
+
+        public bool LocallyOwned
+        {
+            get;
+            set;
         }
 
         public float X
@@ -62,6 +91,13 @@ namespace Perception
             }
 
             this.AdjustHeight(gameContext);
+
+            if (this.LocallyOwned)
+            {
+                this.m_NetworkAPI.SendMessage(
+                    "player update",
+                    this.X + "|" + this.Y + "|" + this.Z);
+            }
         }
 
         public bool CanMoveTo(IGameContext gameContext, float x, float z)

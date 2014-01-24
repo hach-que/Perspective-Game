@@ -1,10 +1,11 @@
 using System;
+using Microsoft.Xna.Framework;
 
 namespace Perception
 {
     public interface IEntityFactory
     {
-        PlayerEntity CreatePlayerEntity();
+        PlayerEntity CreatePlayerEntity(bool isRedColor, bool locallyOwned);
     }
 }
 

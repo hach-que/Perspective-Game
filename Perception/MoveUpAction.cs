@@ -9,7 +9,7 @@ namespace Perception
 	{
         public void Handle(IGameContext context, Event @event)
         {
-            var player = context.World.Entities.OfType<PlayerEntity>().FirstOrDefault();
+            var player = context.World.Entities.OfType<PlayerEntity>().FirstOrDefault(x => x.LocallyOwned);
 
             if (player == null)
             {

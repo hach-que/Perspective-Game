@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Net;
+using Ninject;
 
 namespace Perception
 {
@@ -23,20 +25,30 @@ namespace Perception
 
         private readonly int[,] m_GameBoard;
 
-        private readonly PlayerEntity m_player;
+        private readonly PlayerEntity m_MyPlayer;
+
+        private readonly PlayerEntity m_OtherPlayer;
 
         private readonly ICubeRenderer m_CubeRenderer;
 
         private readonly TextureAsset m_CubeTexture;
 
+        private readonly INetworkAPI m_NetworkAPI;
+
         public PerceptionWorld(
+            IKernel kernel,
             I2DRenderUtilities twoDRenderUtilities,
             I3DRenderUtilities threeDRenderUtilities,
             IAssetManagerProvider assetManagerProvider,
             IEntityFactory entityFactory,
-            ICubeRenderer cubeRenderer)
+            ICubeRenderer cubeRenderer,
+            bool join,
+            IPAddress address)
         {
             this.Entities = new List<IEntity>();
+
+            this.m_NetworkAPI = new DefaultNetworkAPI(join, address);
+            kernel.Bind<INetworkAPI>().ToMethod(x => this.m_NetworkAPI);
 
             this.m_2DRenderUtilities = twoDRenderUtilities;
             this.m_3DRenderUtilities = threeDRenderUtilities;
@@ -71,9 +83,11 @@ namespace Perception
                 }
             }
 
-            this.m_player = this.m_EntityFactory.CreatePlayerEntity();
+            this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(join, true);
+            this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!join, false);
 
-            this.Entities.Add(m_player);
+            this.Entities.Add(this.m_OtherPlayer);
+            this.Entities.Add(this.m_MyPlayer);
         }
 
         public int[,] GameBoard { get { return this.m_GameBoard; } }
@@ -98,8 +112,8 @@ namespace Perception
 
                 renderContext.View = 
                     Matrix.CreateLookAt(
-                        new Vector3(this.m_player.X * 1.05f, 15, this.m_player.Z * 1.05f + 5),
-                        new Vector3(this.m_player.X, this.m_player.Y, this.m_player.Z),
+                        new Vector3(this.m_MyPlayer.X * 1.05f, 15, this.m_MyPlayer.Z * 1.05f + 5),
+                        new Vector3(this.m_MyPlayer.X, this.m_MyPlayer.Y, this.m_MyPlayer.Z),
                         new Vector3(0, 0, -1));
                 renderContext.Projection =
                     Matrix.CreatePerspectiveFieldOfView(
@@ -148,6 +162,7 @@ namespace Perception
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
+            this.m_NetworkAPI.Update();
         }
     }
 }

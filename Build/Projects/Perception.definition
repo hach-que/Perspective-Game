@@ -15,15 +15,20 @@
   </References>
   <Files>
     <Compile Include="DefaultCubeRenderer.cs" />
+    <Compile Include="DefaultNetworkAPI.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
+    <Compile Include="INetworkAPI.cs" />
+    <Compile Include="IWorldFactory.cs" />
     <Compile Include="JumpAction.cs" />
+    <Compile Include="MenuWorld.cs" />
     <Compile Include="MoveDownAction.cs" />
     <Compile Include="MoveLeftAction.cs" />
     <Compile Include="MoveRightAction.cs" />
     <Compile Include="MoveUpAction.cs" />
     <Compile Include="PerceptionActivity.cs" />
+    <Compile Include="PerceptionBasicSkin.cs" />
     <Compile Include="PerceptionEventBinder.cs" />
     <Compile Include="PerceptionGame.cs" />
     <Compile Include="PerceptionIoCModule.cs" />
