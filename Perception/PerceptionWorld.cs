@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Net;
 using Ninject;
+using System.Linq;
 
 namespace Perception
 {
@@ -25,6 +26,10 @@ namespace Perception
 
         private readonly int[,] m_GameBoard;
 
+        private readonly int[,] m_GameBoardTX;
+
+        private readonly int[,] m_GameBoardTY;
+
         private readonly PlayerEntity m_MyPlayer;
 
         private readonly PlayerEntity m_OtherPlayer;
@@ -35,6 +40,10 @@ namespace Perception
 
         private readonly INetworkAPI m_NetworkAPI;
 
+        private readonly char m_LevelSuffix;
+
+        private readonly ILevelManager m_LevelManager;
+
         public PerceptionWorld(
             IKernel kernel,
             I2DRenderUtilities twoDRenderUtilities,
@@ -42,6 +51,7 @@ namespace Perception
             IAssetManagerProvider assetManagerProvider,
             IEntityFactory entityFactory,
             ICubeRenderer cubeRenderer,
+            ILevelManager levelManager,
             bool join,
             IPAddress address)
         {
@@ -57,31 +67,15 @@ namespace Perception
             this.m_EntityFactory = entityFactory;
             this.m_CubeRenderer = cubeRenderer;
             this.m_CubeTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Terrain");
+            this.m_LevelManager = levelManager;
 
             this.m_GameBoard = new int[10, 10];
+            this.m_GameBoardTX = new int[10, 10];
+            this.m_GameBoardTY = new int[10, 10];
 
-            var testboard = 
-@"1111111111
-1111122222
-1111122332
-1111122332
-2221111111
-2221111111
-2221111111
-1111111111
-1111111111
-1111111111";
+            this.m_LevelSuffix = join ? 'b' : 'a';
 
-            var lines = testboard.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
-            var random = new Random();
-            for (var x = 0; x < 10; x++)
-            {
-                for (var y = 0; y < 10; y++)
-                {
-                    this.m_GameBoard[x, y] = int.Parse(lines[y][x] + "");
-                }
-            }
+            this.LoadLevel(1);
 
             this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(join, true);
             this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!join, false);
@@ -100,6 +94,40 @@ namespace Perception
 
         public void RenderAbove(IGameContext gameContext, IRenderContext renderContext)
         {
+        }
+
+        public void LoadLevel(int levelNum)
+        {
+            this.m_LevelManager.Load(this, "level." + levelNum + this.m_LevelSuffix);
+
+            foreach (var levelTile in this.Entities.OfType<LevelTileEntity>())
+            {
+                this.m_GameBoardTX[(int)levelTile.X, (int)levelTile.Y] = levelTile.TX;
+                this.m_GameBoardTY[(int)levelTile.X, (int)levelTile.Y] = levelTile.TY;
+
+                switch (levelTile.TY)
+                {
+                    case 0:
+                        switch (levelTile.TX)
+                        {
+                            case 0:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 2;
+                                break;
+                            case 1:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
+                                break;
+                            case 2:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 3;
+                                break;
+                            default:
+                                break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+            this.Entities.RemoveAll(x => x is LevelTileEntity);
         }
 
         private int midx = 0;
@@ -140,7 +168,9 @@ namespace Perception
                             renderContext,
                             Matrix.CreateScale(1, this.m_GameBoard[x, y], 1) *
                             Matrix.CreateTranslation(new Vector3(x, 0, y)),
-                            this.m_CubeTexture);
+                            this.m_CubeTexture,
+                            new Vector2(this.m_GameBoardTX[x, y] / 8f, this.m_GameBoardTY[x, y] / 4f),
+                            new Vector2(this.m_GameBoardTX[x, y] / 8f, this.m_GameBoardTY[x, y] / 4f));
                     }
                 }
             }

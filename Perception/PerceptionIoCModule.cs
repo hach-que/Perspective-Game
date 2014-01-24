@@ -19,6 +19,8 @@ namespace Perception
 
             this.Bind<ISkin>().To<BasicSkin>();
             this.Bind<IBasicSkin>().To<PerceptionBasicSkin>();
+
+            this.Bind<ITileEntity>().To<LevelTileEntity>().Named("NewTileset0");
         }
     }
 }

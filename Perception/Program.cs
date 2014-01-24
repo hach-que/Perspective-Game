@@ -14,6 +14,7 @@ namespace Perception
             kernel.Load<Protogame3DIoCModule>();
             kernel.Load<ProtogameAssetIoCModule>();
             kernel.Load<ProtogameEventsIoCModule>();
+            kernel.Load<ProtogameLevelIoCModule>();
             kernel.Load<PerceptionIoCModule>();
             AssetManagerClient.AcceptArgumentsAndSetup<GameAssetManagerProvider>(kernel, args);
 

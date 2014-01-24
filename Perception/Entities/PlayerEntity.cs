@@ -82,18 +82,18 @@ namespace Perception
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
-            this.Y += this.YSpeed / 5f;
-
-            this.YSpeed -= 0.05f;
-            if (this.YSpeed < -2)
-            {
-                this.YSpeed = -2;
-            }
-
-            this.AdjustHeight(gameContext);
-
             if (this.LocallyOwned)
             {
+                this.Y += this.YSpeed / 5f;
+
+                this.YSpeed -= 0.05f;
+                if (this.YSpeed < -2)
+                {
+                    this.YSpeed = -2;
+                }
+
+                this.AdjustHeight(gameContext);
+
                 this.m_NetworkAPI.SendMessage(
                     "player update",
                     this.X + "|" + this.Y + "|" + this.Z);
@@ -150,7 +150,9 @@ namespace Perception
                     renderContext,
                     Matrix.CreateScale(0.5f) *
                     Matrix.CreateTranslation(new Vector3(this.X - 0.25f, this.Y, this.Z - 0.25f)),
-                    this.m_PlayerTexture);
+                    this.m_PlayerTexture,
+                    new Vector2(0, 0),
+                    new Vector2(1, 1));
             }
             else
             {

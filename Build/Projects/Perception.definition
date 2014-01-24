@@ -22,6 +22,7 @@
     <Compile Include="INetworkAPI.cs" />
     <Compile Include="IWorldFactory.cs" />
     <Compile Include="JumpAction.cs" />
+    <Compile Include="LevelTileEntity.cs" />
     <Compile Include="MenuWorld.cs" />
     <Compile Include="MoveDownAction.cs" />
     <Compile Include="MoveLeftAction.cs" />
