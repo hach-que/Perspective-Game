@@ -18,6 +18,7 @@
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
+    <Compile Include="JumpAction.cs" />
     <Compile Include="MoveDownAction.cs" />
     <Compile Include="MoveLeftAction.cs" />
     <Compile Include="MoveRightAction.cs" />

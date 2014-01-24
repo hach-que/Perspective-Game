@@ -51,8 +51,8 @@ namespace Perception
             var testboard = 
 @"1111111111
 1111122222
-1111122222
-1111122222
+1111122332
+1111122332
 2221111111
 2221111111
 2221111111
@@ -76,6 +76,8 @@ namespace Perception
             this.Entities.Add(m_player);
         }
 
+        public int[,] GameBoard { get { return this.m_GameBoard; } }
+
         public List<IEntity> Entities { get; private set; }
 
         public void Dispose()
@@ -96,8 +98,8 @@ namespace Perception
 
                 renderContext.View = 
                     Matrix.CreateLookAt(
-                        new Vector3(this.m_player.X * 1.05f, 15, this.m_player.Z * 1.05f + 2),
-                        new Vector3(this.m_player.X, 0f, this.m_player.Z),
+                        new Vector3(this.m_player.X * 1.05f, 15, this.m_player.Z * 1.05f + 5),
+                        new Vector3(this.m_player.X, this.m_player.Y, this.m_player.Z),
                         new Vector3(0, 0, -1));
                 renderContext.Projection =
                     Matrix.CreatePerspectiveFieldOfView(

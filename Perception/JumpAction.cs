@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Perception
 {
-	public class MoveDownAction : IEventAction<IGameContext>
+    public class JumpAction : IEventAction<IGameContext>
 	{
         public void Handle(IGameContext context, Event @event)
         {
@@ -16,10 +16,8 @@ namespace Perception
                 return;
             }
 
-            if (player.Z < 10 && player.CanMoveTo(context, player.X, player.Z + 0.1f))
-            {
-                player.Z += 0.1f;
-            }
+            // TODO: Check if player can jump.
+            player.YSpeed = 0.85f;
         }
 	}
 }

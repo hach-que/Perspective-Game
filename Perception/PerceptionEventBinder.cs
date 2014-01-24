@@ -12,6 +12,7 @@ namespace Perception
             this.Bind<KeyHeldEvent>(x => x.Key == Keys.Right).To<MoveRightAction>();
             this.Bind<KeyHeldEvent>(x => x.Key == Keys.Up).To<MoveUpAction>();
             this.Bind<KeyHeldEvent>(x => x.Key == Keys.Down).To<MoveDownAction>();
+            this.Bind<KeyPressEvent>(x => x.Key == Keys.Z).To<JumpAction>();
         }
     }
 }

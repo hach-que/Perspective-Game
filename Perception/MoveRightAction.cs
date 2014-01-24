@@ -16,7 +16,7 @@ namespace Perception
                 return;
             }
 
-            if (player.X < 10)
+            if (player.X < 10 && player.CanMoveTo(context, player.X + 0.1f, player.Z))
             {
                 player.X += 0.1f;
             }
