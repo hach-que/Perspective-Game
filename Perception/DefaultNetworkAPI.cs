@@ -3,6 +3,7 @@ using Protogame;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
+using System.Linq;
 
 namespace Perception
 {
@@ -28,10 +29,31 @@ namespace Perception
 
             this.m_MessageEvents = new Dictionary<string, List<Action<string>>>();
 
+            this.WasJoin = join;
+
             if (join)
             {
                 this.m_MxDispatcher.Connect(new DualIPEndPoint(address, 9000, 9001));
             }
+        }
+
+        public void ClearAllListeners()
+        {
+            this.m_MessageEvents.Clear();
+        }
+
+        public bool HasOtherPlayer
+        {
+            get
+            {
+                return this.m_MxDispatcher.Endpoints.Count() >= 1;
+            }
+        }
+
+        public bool WasJoin
+        {
+            get;
+            private set;
         }
 
         public void ListenForMessage(string type, Action<string> callback)

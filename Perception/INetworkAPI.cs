@@ -8,6 +8,12 @@ namespace Perception
 
         bool Disconnected { get; }
 
+        bool HasOtherPlayer { get; }
+
+        bool WasJoin { get; }
+
+        void ClearAllListeners();
+
         void SendMessage(string type, string data);
 
         void StopListeningForMessage(string type);

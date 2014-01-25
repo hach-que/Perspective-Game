@@ -5,7 +5,9 @@ namespace Perception
 {
     public interface IWorldFactory
     {
-        PerceptionWorld CreatePerceptionWorld(bool join, IPAddress address);
+        LobbyWorld CreateLobbyWorld(bool join, IPAddress address);
+        IntermissionWorld CreateIntermissionWorld(int level);
+        PerceptionWorld CreatePerceptionWorld(int level);
     }
 }
 

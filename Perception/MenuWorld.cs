@@ -45,7 +45,7 @@ namespace Perception
             startServer.Click += (sender, e) =>
             {
                 this.m_LastGameContext.SwitchWorld<IWorldFactory>(
-                    x => x.CreatePerceptionWorld(false, IPAddress.Any));
+                    x => x.CreateLobbyWorld(false, IPAddress.Any));
             };
 
             var ipAddressTextBox = new TextBox();
@@ -55,7 +55,7 @@ namespace Perception
             joinGame.Click += (sender, e) =>
             {
                 this.m_LastGameContext.SwitchWorld<IWorldFactory>(
-                    x => x.CreatePerceptionWorld(true, IPAddress.Parse(ipAddressTextBox.Text)));
+                    x => x.CreateLobbyWorld(true, IPAddress.Parse(ipAddressTextBox.Text)));
             };
 
             var exitGame = new Button();

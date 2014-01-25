@@ -34,6 +34,7 @@
     <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="INetworkAPI.cs" />
+    <Compile Include="IntermissionWorld.cs" />
     <Compile Include="IWorldFactory.cs" />
     <Compile Include="LevelTileEntity.cs" />
     <Compile Include="LobbyWorld.cs" />

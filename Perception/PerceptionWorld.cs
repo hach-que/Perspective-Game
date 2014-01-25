@@ -46,8 +46,6 @@ namespace Perception
 
         private readonly ILevelManager m_LevelManager;
 
-        private readonly bool m_WasJoin;
-
         public PerceptionWorld(
             IKernel kernel,
             I2DRenderUtilities twoDRenderUtilities,
@@ -56,14 +54,12 @@ namespace Perception
             IEntityFactory entityFactory,
             ICubeRenderer cubeRenderer,
             ILevelManager levelManager,
-            bool join,
-            IPAddress address)
+            INetworkAPI networkAPI,
+            int level)
         {
             this.Entities = new List<IEntity>();
 
-            this.m_NetworkAPI = new DefaultNetworkAPI(join, address);
-            kernel.Bind<INetworkAPI>().ToMethod(x => this.m_NetworkAPI);
-
+            this.m_NetworkAPI = networkAPI;
             this.m_2DRenderUtilities = twoDRenderUtilities;
             this.m_3DRenderUtilities = threeDRenderUtilities;
             this.m_AssetManager = assetManagerProvider.GetAssetManager();
@@ -72,14 +68,13 @@ namespace Perception
             this.m_CubeRenderer = cubeRenderer;
             this.m_CubeTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Terrain");
             this.m_LevelManager = levelManager;
-            this.m_WasJoin = join;
 
             this.m_GameBoard = new int[10, 10];
             this.m_GameBoardMeta = new string[10, 10];
             this.m_GameBoardTX = new int[10, 10];
             this.m_GameBoardTY = new int[10, 10];
 
-            this.m_LevelSuffix = join ? 'b' : 'a';
+            this.m_LevelSuffix = this.m_NetworkAPI.WasJoin ? 'b' : 'a';
 
             this.LoadLevel(1);
 
@@ -180,7 +175,7 @@ namespace Perception
 
             foreach (var entity in this.Entities.OfType<BaseNetworkEntity>())
             {
-                if (this.m_WasJoin)
+                if (this.m_NetworkAPI.WasJoin)
                 {
                     entity.LocallyOwned = false;
                 }
@@ -192,11 +187,11 @@ namespace Perception
                 {
                     case "RedSpawn":
                     case "BlueSpawn":
-                        var check = entity.Name == "RedSpawn" ? this.m_WasJoin : !this.m_WasJoin;
+                        var check = entity.Name == "RedSpawn" ? this.m_NetworkAPI.WasJoin : !this.m_NetworkAPI.WasJoin;
 
                         if (check)
                         {
-                            this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(this.m_WasJoin, true);
+                            this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(this.m_NetworkAPI.WasJoin, true);
                             this.m_MyPlayer.X = entity.X + 0.5f;
                             this.m_MyPlayer.Y = 1f;
                             this.m_MyPlayer.Z = entity.Z + 0.5f;
@@ -204,7 +199,7 @@ namespace Perception
                         }
                         else
                         {
-                            this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!this.m_WasJoin, false);
+                            this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!this.m_NetworkAPI.WasJoin, false);
                             this.m_OtherPlayer.X = entity.X + 0.5f;
                             this.m_OtherPlayer.Y = 1f;
                             this.m_OtherPlayer.Z = entity.Z + 0.5f;
