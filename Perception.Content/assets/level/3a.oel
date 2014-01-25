@@ -85,7 +85,7 @@
     <tile x="8" y="2" tx="3" ty="0" />
     <tile x="8" y="3" tx="3" ty="0" />
     <tile x="8" y="4" tx="7" ty="1" />
-    <tile x="8" y="5" tx="4" ty="0" />
+    <tile x="8" y="5" tx="7" ty="1" />
     <tile x="8" y="6" tx="4" ty="0" />
     <tile x="8" y="7" tx="4" ty="0" />
     <tile x="8" y="8" tx="4" ty="0" />
