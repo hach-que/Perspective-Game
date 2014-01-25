@@ -158,6 +158,33 @@ namespace Perception
                         this.HeldObject.ZSpeed = 0;
                     }
                 }
+
+                if (this.IsOnFloor(gameContext))
+                {
+                    this.HandleMeta(gameContext);
+                }
+            }
+        }
+
+        private void HandleMeta(IGameContext gameContext)
+        {
+            var world = (PerceptionWorld)gameContext.World;
+
+            var meta = world.GameBoardMeta[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
+
+            if (meta == null)
+            {
+                return;
+            }
+
+            switch (meta)
+            {
+                case "end":
+
+                    // Move to the next level.
+                    world.InitiateNextLevel();
+
+                    break;
             }
         }
 
@@ -167,6 +194,13 @@ namespace Perception
             try
             {
                 var height = world.GameBoard[(int)Math.Round(x - 0.5f), (int)Math.Round(z - 0.5f)];
+
+                // check if there are doors there
+                var door = world.Entities.OfType<DoorEntity>().FirstOrDefault(a => a.X <= x + 0.5f && a.Z <= z + 0.5f && a.X + 1f > x + 0.5f && a.Z + 1f > z + 0.5f);
+                if (door != null && !door.Open)
+                {
+                    return false;
+                }
 
                 return this.Y >= height;
             }

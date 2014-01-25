@@ -26,6 +26,8 @@ namespace Perception
 
         private readonly int[,] m_GameBoard;
 
+        private readonly string[,] m_GameBoardMeta;
+
         private readonly int[,] m_GameBoardTX;
 
         private readonly int[,] m_GameBoardTY;
@@ -73,17 +75,57 @@ namespace Perception
             this.m_WasJoin = join;
 
             this.m_GameBoard = new int[10, 10];
+            this.m_GameBoardMeta = new string[10, 10];
             this.m_GameBoardTX = new int[10, 10];
             this.m_GameBoardTY = new int[10, 10];
 
             this.m_LevelSuffix = join ? 'b' : 'a';
 
             this.LoadLevel(1);
+
+            this.m_NetworkAPI.ListenForMessage(
+                "next level",
+                a =>
+                {
+                    this.HandleNextLevel();
+                });
+
+            this.m_NetworkAPI.ListenForMessage(
+                "door unlock",
+                a =>
+                {
+                    var values = a.Split('|').Select(x => int.Parse(x)).ToArray();
+
+                    var doorID = values[0];
+                    var keyID = values[1];
+
+                    this.Entities.RemoveAll(x => x is KeyEntity && ((KeyEntity)x).ID == keyID);
+
+                    foreach (var door in this.Entities.OfType<DoorEntity>().Where(x=>x.ID == doorID))
+                    {
+                        door.Open = true;
+                    }
+                });
         }
 
         public int[,] GameBoard { get { return this.m_GameBoard; } }
 
+        public string[,] GameBoardMeta { get { return this.m_GameBoardMeta; } }
+
         public List<IEntity> Entities { get; private set; }
+
+        public void InitiateNextLevel()
+        {
+            this.m_NetworkAPI.SendMessage(
+                "next level",
+                "");
+
+            this.HandleNextLevel();
+        }
+
+        public void HandleNextLevel()
+        {
+        }
 
         public void Dispose()
         {
@@ -115,6 +157,16 @@ namespace Perception
                                 break;
                             case 2:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 3;
+                                break;
+                            default:
+                                break;
+                        }
+                    case 2:
+                        switch (levelTile.TX)
+                        {
+                            case 7:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
+                                this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "end";
                                 break;
                             default:
                                 break;
@@ -213,24 +265,37 @@ namespace Perception
             {
                 this.m_2DRenderUtilities.RenderText(
                     renderContext,
-                    new Vector2(10, 10),
-                    "Hello Perception!",
-                    this.m_DefaultFont);
+                    new Vector2(renderContext.GraphicsDevice.Viewport.Width - 10, 10),
+                    gameContext.FPS + " FPS",
+                    this.m_DefaultFont,
+                    horizontalAlignment: HorizontalAlignment.Right);
 
-                this.m_2DRenderUtilities.RenderText(
-                    renderContext,
-                    new Vector2(10, 30),
-                    "Running at " + gameContext.FPS + " FPS; " + gameContext.FrameCount + " frames counted so far",
-                    this.m_DefaultFont);
+                var instructions = 
+                    @"Up/Down/Left/Right - Move
+Z - Jump
+X - Pickup / Drop
+W/A/S/D - Throw";
+
+                var lines = instructions.Split('\n');
+                var i = 0;
+                foreach (var line in lines)
+                {
+                    this.m_2DRenderUtilities.RenderText(
+                        renderContext,
+                        new Vector2(10, 10 + 20 * i++),
+                        line,
+                        this.m_DefaultFont);
+                }
 
                 if (this.m_NetworkAPI.ClientDisconnectAccumulator > 0)
                 {
                     this.m_2DRenderUtilities.RenderText(
                         renderContext,
-                        new Vector2(10, 50),
-                        "Client disconnect accumulator: " + this.m_NetworkAPI.ClientDisconnectAccumulator,
+                        new Vector2(renderContext.GraphicsDevice.Viewport.Width - 10, 30),
+                        "Other player has disconnected (" + (this.m_NetworkAPI.ClientDisconnectAccumulator / 30f).ToString("F2") + "s)",
                         this.m_DefaultFont,
-                        textColor: Color.Red);
+                        textColor: Color.Red,
+                        horizontalAlignment: HorizontalAlignment.Right);
                 }
             }
         }

@@ -28,11 +28,54 @@ namespace Perception
                 networkAPI,
                 Convert.ToInt32(attributes["NetworkID"]))
         {
-            this.X = x * 16;
-            this.Z = y * 16;
+            this.X = x / 16f + 0.5f;
+            this.Z = y / 16f + 0.5f;
+            this.CanPickup = false;
 
-            this.m_DoorClosedModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorClosed");
-            this.m_DoorOpenModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorOpen");
+            //this.m_DoorClosedModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorClosed");
+            //this.m_DoorOpenModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorOpen");
+        }
+
+        public bool Open
+        {
+            get;
+            set;
+        }
+
+        public override void Update(IGameContext gameContext, IUpdateContext updateContext)
+        {
+            base.Update(gameContext, updateContext);
+
+            if (this.Open)
+            {
+                return;
+            }
+
+            var players = gameContext.World.Entities.OfType<PlayerEntity>();
+
+            foreach (var player in players.ToArray())
+            {
+                if (player.HoldingObject && player.HeldObject is KeyEntity)
+                {
+                    var target = new Vector3(this.X, this.Y, this.Z);
+                    var source = new Vector3(player.X, player.Y, player.Z);
+
+                    if ((target - source).Length() < 1)
+                    {
+                        this.Open = true;
+                        var key = player.HeldObject;
+                        player.Drop();
+
+                        gameContext.World.Entities.Remove(key);
+
+                        this.m_NetworkAPI.SendMessage(
+                            "door unlock",
+                            this.ID + "|" + key.ID);
+
+                        return;
+                    }
+                }
+            }
         }
 
         public override void Render(IGameContext gameContext, IRenderContext renderContext)
@@ -42,13 +85,27 @@ namespace Perception
                 return;
             }
 
-            this.m_DoorClosedModel.Draw(
+            renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
+
+            if (!this.Open)
+            {
+                this.m_CubeRenderer.RenderCube(
+                    renderContext,
+                    Matrix.CreateTranslation(this.X - 0.5f, this.Y, this.Z - 0.5f),
+                    new TextureAsset(renderContext.SingleWhitePixel),
+                    new Vector2(0, 0),
+                    new Vector2(0, 0));
+            }
+
+            /*var model = this.Open ? this.m_DoorOpenModel : this.m_DoorClosedModel;
+
+            model.Draw(
                 renderContext,
-                Matrix.CreateScale(1f, 1f, 0.2f) *
-                Matrix.CreateScale(0.5f) *
-                Matrix.CreateTranslation(this.X, this.Y, this.Z),
-                Animation.AnimationNullName,
-                TimeSpan.Zero);
+                Matrix.Identity,
+                //Matrix.CreateRotationY(MathHelper.ToRadians(-90)) * 
+                //Matrix.CreateTranslation(this.X - 0.5f, this.Y, this.Z + 0.4f),
+            model.AvailableAnimations.First().Name,
+            TimeSpan.Zero);*/
         }
     }
 }

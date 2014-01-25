@@ -28,8 +28,8 @@ namespace Perception
                 networkAPI,
                 Convert.ToInt32(attributes["NetworkID"]))
         {
-            this.X = x * 16;
-            this.Z = y * 16;
+            this.X = x / 16f + 0.5f;
+            this.Z = y / 16f + 0.5f;
 
             this.m_KeyModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Key");
         }
@@ -42,6 +42,8 @@ namespace Perception
             }
 
             midx++;
+
+            renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
 
             this.m_KeyModel.Draw(
                 renderContext,

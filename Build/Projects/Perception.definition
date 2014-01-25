@@ -36,6 +36,7 @@
     <Compile Include="INetworkAPI.cs" />
     <Compile Include="IWorldFactory.cs" />
     <Compile Include="LevelTileEntity.cs" />
+    <Compile Include="LobbyWorld.cs" />
     <Compile Include="MenuWorld.cs" />
     <Compile Include="PerceptionActivity.cs" />
     <Compile Include="PerceptionBasicSkin.cs" />

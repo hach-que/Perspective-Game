@@ -40,8 +40,8 @@
     <tile x="3" y="7" tx="2" ty="0" />
     <tile x="3" y="8" tx="2" ty="0" />
     <tile x="3" y="9" tx="2" ty="0" />
-    <tile x="4" y="0" tx="1" ty="0" />
-    <tile x="4" y="1" tx="1" ty="0" />
+    <tile x="4" y="0" tx="7" ty="2" />
+    <tile x="4" y="1" tx="2" ty="0" />
     <tile x="4" y="2" tx="1" ty="0" />
     <tile x="4" y="3" tx="1" ty="0" />
     <tile x="4" y="4" tx="1" ty="0" />
@@ -50,7 +50,7 @@
     <tile x="4" y="7" tx="1" ty="0" />
     <tile x="4" y="8" tx="1" ty="0" />
     <tile x="4" y="9" tx="1" ty="0" />
-    <tile x="5" y="0" tx="1" ty="0" />
+    <tile x="5" y="0" tx="7" ty="2" />
     <tile x="5" y="1" tx="1" ty="0" />
     <tile x="5" y="2" tx="1" ty="0" />
     <tile x="5" y="3" tx="1" ty="0" />
@@ -104,7 +104,7 @@
   <Entities>
     <RedSpawn id="0" x="64" y="144" />
     <BlueSpawn id="1" x="0" y="64" />
-    <Door id="2" x="80" y="0" NetworkID="1" />
+    <Door id="2" x="80" y="16" NetworkID="2" />
     <Key id="3" x="144" y="64" NetworkID="1" />
   </Entities>
 </level>

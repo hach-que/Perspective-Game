@@ -7,11 +7,11 @@ namespace Perception
 {
     public class BaseNetworkEntity : IEntity
     {
-        private readonly I2DRenderUtilities m_2DRenderUtilities;
+        protected readonly I2DRenderUtilities m_2DRenderUtilities;
 
-        private readonly ICubeRenderer m_CubeRenderer;
+        protected readonly ICubeRenderer m_CubeRenderer;
 
-        private readonly INetworkAPI m_NetworkAPI;
+        protected readonly INetworkAPI m_NetworkAPI;
 
         public BaseNetworkEntity(
             I2DRenderUtilities twodRenderUtilities,
@@ -109,7 +109,13 @@ namespace Perception
             set;
         }
 
-        public void Update(IGameContext gameContext, IUpdateContext updateContext)
+        public bool CanPickup
+        {
+            get;
+            set;
+        }
+
+        public virtual void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
             if (this.LocallyOwned)
             {
