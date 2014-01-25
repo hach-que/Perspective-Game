@@ -21,6 +21,11 @@ namespace Perception
             this.Bind<IBasicSkin>().To<PerceptionBasicSkin>();
 
             this.Bind<ITileEntity>().To<LevelTileEntity>().Named("NewTileset0");
+
+            this.Bind<IEntity>().To<KeyEntity>().Named("Key");
+            this.Bind<IEntity>().To<DoorEntity>().Named("Door");
+            this.Bind<IEntity>().To<SpawnEntity>().Named("RedSpawn");
+            this.Bind<IEntity>().To<SpawnEntity>().Named("BlueSpawn");
         }
     }
 }

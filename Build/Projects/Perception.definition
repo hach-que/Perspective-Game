@@ -27,8 +27,10 @@
     <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="DefaultNetworkAPI.cs" />
     <Compile Include="Entities\BaseNetworkEntity.cs" />
+    <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\KeyEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
+    <Compile Include="Entities\SpawnEntity.cs" />
     <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="INetworkAPI.cs" />

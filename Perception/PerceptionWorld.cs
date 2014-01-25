@@ -30,9 +30,9 @@ namespace Perception
 
         private readonly int[,] m_GameBoardTY;
 
-        private readonly PlayerEntity m_MyPlayer;
+        private PlayerEntity m_MyPlayer;
 
-        private readonly PlayerEntity m_OtherPlayer;
+        private PlayerEntity m_OtherPlayer;
 
         private readonly ICubeRenderer m_CubeRenderer;
 
@@ -43,6 +43,8 @@ namespace Perception
         private readonly char m_LevelSuffix;
 
         private readonly ILevelManager m_LevelManager;
+
+        private readonly bool m_WasJoin;
 
         public PerceptionWorld(
             IKernel kernel,
@@ -68,6 +70,7 @@ namespace Perception
             this.m_CubeRenderer = cubeRenderer;
             this.m_CubeTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Terrain");
             this.m_LevelManager = levelManager;
+            this.m_WasJoin = join;
 
             this.m_GameBoard = new int[10, 10];
             this.m_GameBoardTX = new int[10, 10];
@@ -76,18 +79,6 @@ namespace Perception
             this.m_LevelSuffix = join ? 'b' : 'a';
 
             this.LoadLevel(1);
-
-            this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(join, true);
-            this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!join, false);
-
-            this.Entities.Add(this.m_OtherPlayer);
-            this.Entities.Add(this.m_MyPlayer);
-
-            var key = this.m_EntityFactory.CreateKeyEntity(1, !join);
-            key.X = 3;
-            key.Y = 3;
-            key.Z = 3;
-            this.Entities.Add(key);
         }
 
         public int[,] GameBoard { get { return this.m_GameBoard; } }
@@ -134,6 +125,44 @@ namespace Perception
             }
 
             this.Entities.RemoveAll(x => x is LevelTileEntity);
+
+            foreach (var entity in this.Entities.OfType<BaseNetworkEntity>())
+            {
+                if (this.m_WasJoin)
+                {
+                    entity.LocallyOwned = false;
+                }
+            }
+
+            foreach (var entity in this.Entities.OfType<SpawnEntity>().ToList())
+            {
+                switch (entity.Name)
+                {
+                    case "RedSpawn":
+                    case "BlueSpawn":
+                        var check = entity.Name == "RedSpawn" ? this.m_WasJoin : !this.m_WasJoin;
+
+                        if (check)
+                        {
+                            this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(this.m_WasJoin, true);
+                            this.m_MyPlayer.X = entity.X + 0.5f;
+                            this.m_MyPlayer.Y = 1f;
+                            this.m_MyPlayer.Z = entity.Z + 0.5f;
+                            this.Entities.Add(this.m_MyPlayer);
+                        }
+                        else
+                        {
+                            this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!this.m_WasJoin, false);
+                            this.m_OtherPlayer.X = entity.X + 0.5f;
+                            this.m_OtherPlayer.Y = 1f;
+                            this.m_OtherPlayer.Z = entity.Z + 0.5f;
+                            this.Entities.Add(this.m_OtherPlayer);
+                        }
+                        break;
+                }
+            }
+
+            this.Entities.RemoveAll(x => x is SpawnEntity);
         }
 
         private int midx = 0;

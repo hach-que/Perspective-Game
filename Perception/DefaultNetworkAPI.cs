@@ -8,7 +8,7 @@ namespace Perception
 {
     public class DefaultNetworkAPI : INetworkAPI
     {
-        private readonly Dictionary<string, Action<string>> m_MessageEvents;
+        private readonly Dictionary<string, List<Action<string>>> m_MessageEvents;
 
         private readonly MxDispatcher m_MxDispatcher;
 
@@ -26,7 +26,7 @@ namespace Perception
             this.m_MxDispatcher.ClientDisconnected += this.OnClientDisconnected;
             this.m_MxDispatcher.ClientDisconnectWarning += this.OnClientDisconnectWarning;
 
-            this.m_MessageEvents = new Dictionary<string, Action<string>>();
+            this.m_MessageEvents = new Dictionary<string, List<Action<string>>>();
 
             if (join)
             {
@@ -36,12 +36,12 @@ namespace Perception
 
         public void ListenForMessage(string type, Action<string> callback)
         {
-            if (this.m_MessageEvents.ContainsKey(type))
+            if (!this.m_MessageEvents.ContainsKey(type))
             {
-                throw new InvalidOperationException("callback already registered");
+                this.m_MessageEvents[type] = new List<Action<string>>();
             }
 
-            this.m_MessageEvents[type] = callback;
+            this.m_MessageEvents[type].Add(callback);
         }
 
         public void SendMessage(string type, string data)
@@ -54,12 +54,7 @@ namespace Perception
 
         public void StopListeningForMessage(string type)
         {
-            if (!this.m_MessageEvents.ContainsKey(type))
-            {
-                throw new InvalidOperationException("callback not registered");
-            }
-
-            this.m_MessageEvents.Remove(type);
+            // TODO
         }
 
         public void Update()
@@ -91,7 +86,10 @@ namespace Perception
 
             if (this.m_MessageEvents.ContainsKey(components[0]))
             {
-                this.m_MessageEvents[components[0]](components[1]);
+                foreach (var callback in this.m_MessageEvents[components[0]])
+                {
+                    callback(components[1]);
+                }
             }
         }
 

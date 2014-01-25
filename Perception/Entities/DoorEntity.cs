@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace Perception
 {
-    public class KeyEntity : BaseNetworkEntity
+    public class DoorEntity : BaseNetworkEntity
     {
-        private ModelAsset m_KeyModel;
+        private ModelAsset m_DoorClosedModel;
 
-        private int midx;
+        private ModelAsset m_DoorOpenModel;
 
-        public KeyEntity(
+        public DoorEntity(
             I2DRenderUtilities twodRenderUtilities,
             ICubeRenderer cubeRenderer,
             IAssetManagerProvider assetManagerProvider,
@@ -31,7 +31,8 @@ namespace Perception
             this.X = x * 16;
             this.Z = y * 16;
 
-            this.m_KeyModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Key");
+            this.m_DoorClosedModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorClosed");
+            this.m_DoorOpenModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorOpen");
         }
 
         public override void Render(IGameContext gameContext, IRenderContext renderContext)
@@ -41,14 +42,11 @@ namespace Perception
                 return;
             }
 
-            midx++;
-
-            this.m_KeyModel.Draw(
+            this.m_DoorClosedModel.Draw(
                 renderContext,
                 Matrix.CreateScale(1f, 1f, 0.2f) *
                 Matrix.CreateScale(0.5f) *
-                Matrix.CreateRotationY(MathHelper.ToRadians(midx)) *
-                Matrix.CreateTranslation(this.X, this.Y + 1, this.Z),
+                Matrix.CreateTranslation(this.X, this.Y, this.Z),
                 Animation.AnimationNullName,
                 TimeSpan.Zero);
         }

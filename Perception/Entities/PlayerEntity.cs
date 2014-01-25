@@ -29,10 +29,6 @@ namespace Perception
             this.m_CubeRenderer = cubeRenderer;
             this.m_PlayerTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture." + (isRedColor ? "Red" : "Blue"));
 
-            this.X = 5.5f;
-            this.Y = 1f;
-            this.Z = 5.5f;
-
             this.LocallyOwned = locallyOwned;
 
             if (!this.LocallyOwned)

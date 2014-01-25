@@ -18,13 +18,12 @@ namespace Perception
             ICubeRenderer cubeRenderer,
             IAssetManagerProvider assetManagerProvider,
             INetworkAPI networkAPI,
-            int id,
-            bool locallyOwned)
+            int id)
         {
             this.m_NetworkAPI = networkAPI;
             this.m_2DRenderUtilities = twodRenderUtilities;
             this.m_CubeRenderer = cubeRenderer;
-            this.LocallyOwned = locallyOwned;
+            this.LocallyOwned = true;
 
             this.ID = id;
 
