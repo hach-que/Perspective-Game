@@ -239,6 +239,11 @@ namespace Perception
             {
                 var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
 
+                if (height == 0)
+                {
+                    return this.Y < -10;
+                }
+
                 return this.Y == height;
             }
             catch (IndexOutOfRangeException)
@@ -252,7 +257,7 @@ namespace Perception
             var world = (PerceptionWorld)gameContext.World;
             var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
 
-            if (this.Y < height)
+            if (this.Y < height && height != 0)
             {
                 this.Y = height;
                 this.YSpeed = 0;
@@ -273,6 +278,32 @@ namespace Perception
             }
             else
             {
+                var world = (PerceptionWorld)gameContext.World;
+
+                try
+                {
+                    var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
+
+                    if (height == 0 && this.Y < 0)
+                    {
+                        // draw fade out
+                        var fadeValue = (-(-10 - this.Y) / 10f);
+
+                        var color = new Color(0f, 0f, 0f, 1f - fadeValue);
+
+                        this.m_2DRenderUtilities.RenderRectangle(
+                            renderContext,
+                            new Rectangle(
+                                0, 0,
+                                renderContext.GraphicsDevice.Viewport.Width,
+                                renderContext.GraphicsDevice.Viewport.Height),
+                            color,
+                            true);
+                    }
+                }
+                catch (IndexOutOfRangeException)
+                {
+                }
             }
         }
     }

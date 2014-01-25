@@ -291,6 +291,11 @@ namespace Perception
                 {
                     for (var y = 0; y < 10; y++)
                     {
+                        if (this.m_GameBoard[x, y] == 0)
+                        {
+                            continue;
+                        }
+
                         this.m_CubeRenderer.RenderCube(
                             renderContext,
                             Matrix.CreateScale(1, this.m_GameBoard[x, y], 1) *
