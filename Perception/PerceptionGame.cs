@@ -16,7 +16,7 @@ namespace Perception
         {
             base.LoadContent();
 
-            this.Window.Title = "Perception";
+            this.Window.Title = "Perspective";
             this.GameContext.ResizeWindow(1024, 768);
         }
     }

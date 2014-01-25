@@ -14,20 +14,27 @@
     <Reference Include="Perception.Content" />
   </References>
   <Files>
+    <Compile Include="Actions\JumpAction.cs" />
+    <Compile Include="Actions\MoveDownAction.cs" />
+    <Compile Include="Actions\MoveLeftAction.cs" />
+    <Compile Include="Actions\MoveRightAction.cs" />
+    <Compile Include="Actions\MoveUpAction.cs" />
+    <Compile Include="Actions\PickupDropAction.cs" />
+    <Compile Include="Actions\ThrowDownAction.cs" />
+    <Compile Include="Actions\ThrowLeftAction.cs" />
+    <Compile Include="Actions\ThrowRightAction.cs" />
+    <Compile Include="Actions\ThrowUpAction.cs" />
     <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="DefaultNetworkAPI.cs" />
+    <Compile Include="Entities\BaseNetworkEntity.cs" />
+    <Compile Include="Entities\KeyEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="ICubeRenderer.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="INetworkAPI.cs" />
     <Compile Include="IWorldFactory.cs" />
-    <Compile Include="JumpAction.cs" />
     <Compile Include="LevelTileEntity.cs" />
     <Compile Include="MenuWorld.cs" />
-    <Compile Include="MoveDownAction.cs" />
-    <Compile Include="MoveLeftAction.cs" />
-    <Compile Include="MoveRightAction.cs" />
-    <Compile Include="MoveUpAction.cs" />
     <Compile Include="PerceptionActivity.cs" />
     <Compile Include="PerceptionBasicSkin.cs" />
     <Compile Include="PerceptionEventBinder.cs" />

@@ -82,6 +82,12 @@ namespace Perception
 
             this.Entities.Add(this.m_OtherPlayer);
             this.Entities.Add(this.m_MyPlayer);
+
+            var key = this.m_EntityFactory.CreateKeyEntity(1, !join);
+            key.X = 3;
+            key.Y = 3;
+            key.Z = 3;
+            this.Entities.Add(key);
         }
 
         public int[,] GameBoard { get { return this.m_GameBoard; } }

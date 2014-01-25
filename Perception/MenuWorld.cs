@@ -67,7 +67,7 @@ namespace Perception
 
             var vertical = new VerticalContainer();
             vertical.AddChild(new EmptyContainer(), "*");
-            vertical.AddChild(new Label { Text = "Perception" }, "25");
+            vertical.AddChild(new Label { Text = "Perspective" }, "25");
             vertical.AddChild(new EmptyContainer(), "*");
             vertical.AddChild(startServer, "25");
             vertical.AddChild(new EmptyContainer(), "*");
