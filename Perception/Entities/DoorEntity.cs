@@ -9,9 +9,11 @@ namespace Perception
 {
     public class DoorEntity : BaseNetworkEntity
     {
-        private ModelAsset m_DoorClosedModel;
+        private ModelAsset m_DoorModel;
 
-        private ModelAsset m_DoorOpenModel;
+        private ModelAsset m_DoorFrameModel;
+
+        private int m_Rotation;
 
         public DoorEntity(
             I2DRenderUtilities twodRenderUtilities,
@@ -33,8 +35,10 @@ namespace Perception
             this.JoinShouldOwn = Convert.ToBoolean(attributes["JoinOwns"]);
             this.CanPickup = false;
 
-            //this.m_DoorClosedModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorClosed");
-            //this.m_DoorOpenModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorOpen");
+            this.m_Rotation = Convert.ToInt32(attributes["Rotation"]);
+
+            this.m_DoorModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Door");
+            this.m_DoorFrameModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorFrame");
         }
 
         public bool Open
@@ -88,25 +92,28 @@ namespace Perception
 
             renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
 
-            if (!this.Open)
-            {
-                this.m_CubeRenderer.RenderCube(
-                    renderContext,
-                    Matrix.CreateTranslation(this.X - 0.5f, this.Y, this.Z - 0.5f),
-                    new TextureAsset(renderContext.SingleWhitePixel),
-                    new Vector2(0, 0),
-                    new Vector2(0, 0));
-            }
+            var midx = this.Open ? 90 : 0;
 
-            /*var model = this.Open ? this.m_DoorOpenModel : this.m_DoorClosedModel;
-
-            model.Draw(
+            this.m_DoorFrameModel.Draw(
                 renderContext,
-                Matrix.Identity,
-                //Matrix.CreateRotationY(MathHelper.ToRadians(-90)) * 
-                //Matrix.CreateTranslation(this.X - 0.5f, this.Y, this.Z + 0.4f),
-            model.AvailableAnimations.First().Name,
-            TimeSpan.Zero);*/
+                Matrix.CreateScale(0.8f) * 
+                Matrix.CreateTranslation(0f, 0f, 0.4f) *
+                Matrix.CreateRotationY(MathHelper.ToRadians(this.m_Rotation)) *
+                Matrix.CreateTranslation(this.X, this.Y, this.Z),
+                this.m_DoorFrameModel.AvailableAnimations.First().Name,
+                TimeSpan.Zero);
+
+            this.m_DoorModel.Draw(
+                renderContext,
+                Matrix.CreateTranslation(0.5f, 0f, 0f) *
+                Matrix.CreateRotationY(MathHelper.ToRadians(midx)) *
+                Matrix.CreateTranslation(-0.5f, 0f, 0f) *
+                Matrix.CreateScale(0.8f) * 
+                Matrix.CreateTranslation(0f, 0f, 0.4f) *
+                Matrix.CreateRotationY(MathHelper.ToRadians(this.m_Rotation)) *
+                Matrix.CreateTranslation(this.X, this.Y, this.Z),
+                this.m_DoorModel.AvailableAnimations.First().Name,
+                TimeSpan.Zero);
         }
     }
 }

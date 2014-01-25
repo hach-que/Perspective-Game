@@ -105,7 +105,7 @@
     <BlueSpawn id="0" x="0" y="64" />
     <RedSpawn id="1" x="64" y="144" />
     <Key id="2" x="144" y="64" NetworkID="1" JoinOwns="False" />
-    <Door id="3" x="80" y="16" NetworkID="2" JoinOwns="False" />
+    <Door id="3" x="80" y="16" NetworkID="2" JoinOwns="False" Rotation="0" />
     <Goal id="4" x="80" y="0" JoinOwns="False" NetworkID="3" />
   </Entities>
 </level>

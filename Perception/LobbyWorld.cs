@@ -61,7 +61,7 @@ namespace Perception
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
-            if (this.m_NetworkAPI.HasOtherPlayer)
+            if (this.m_NetworkAPI.HasOtherPlayer || true)
             {
                 gameContext.SwitchWorld<IWorldFactory>(
                     x => x.CreateIntermissionWorld(1));
