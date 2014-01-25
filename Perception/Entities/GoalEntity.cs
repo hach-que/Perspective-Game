@@ -9,9 +9,9 @@ namespace Perception
 {
     public class GoalEntity : BaseNetworkEntity
     {
-        private ModelAsset m_DoorClosedModel;
+        private ModelAsset m_GoalModel;
 
-        private ModelAsset m_DoorOpenModel;
+        private int m_Rotation;
 
         public GoalEntity(
             I2DRenderUtilities twodRenderUtilities,
@@ -32,6 +32,8 @@ namespace Perception
             this.Z = y / 16f + 0.5f;
             this.CanPickup = false;
             this.JoinShouldOwn = Convert.ToBoolean(attributes["JoinOwns"]);
+
+            this.m_GoalModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Goal");
         }
 
         public override void Update(IGameContext gameContext, IUpdateContext updateContext)
@@ -50,7 +52,7 @@ namespace Perception
                     continue;
                 }
 
-                if ((target - source).Length() < 1)
+                if ((target - source).Length() < 0.25f)
                 {
                     ((PerceptionWorld)gameContext.World).InitiateNextLevel();
 
@@ -68,13 +70,13 @@ namespace Perception
 
             renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
 
-            this.m_CubeRenderer.RenderCube(
+            this.m_GoalModel.Draw(
                 renderContext,
-                Matrix.CreateScale(1f, 0.1f, 1f) *
-                Matrix.CreateTranslation(this.X - 0.5f, this.Y, this.Z - 0.5f),
-                new TextureAsset(renderContext.SingleWhitePixel),
-                new Vector2(0, 0),
-                new Vector2(0, 0));
+                Matrix.CreateScale(0.4f) * 
+                Matrix.CreateRotationY(MathHelper.ToRadians(this.m_Rotation++)) *
+                Matrix.CreateTranslation(this.X, this.Y + 1f, this.Z),
+                this.m_GoalModel.AvailableAnimations.First().Name,
+                TimeSpan.Zero);
         }
     }
 }
