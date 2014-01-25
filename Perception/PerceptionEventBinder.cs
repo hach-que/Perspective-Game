@@ -15,6 +15,7 @@ namespace Perception
             this.Bind<KeyPressEvent>(x => x.Key == Keys.Z).To<JumpAction>();
             this.Bind<KeyPressEvent>(x => x.Key == Keys.X).To<PickupDropAction>();
             this.Bind<KeyPressEvent>(x => x.Key == Keys.R).To<RestartAction>();
+            this.Bind<KeyPressEvent>(x => x.Key == Keys.S).To<SkipLevelAction>();
         }
     }
 }

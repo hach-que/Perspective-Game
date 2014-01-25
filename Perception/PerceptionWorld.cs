@@ -192,6 +192,18 @@ namespace Perception
                                 break;
                         }
                         break;
+                    case 1:
+                        switch (levelTile.TX)
+                        {
+                            case 6:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 4;
+                                break;
+                            case 7:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 7;
+                                break;
+                            default:
+                                break;
+                        }
                     case 2:
                         switch (levelTile.TX)
                         {

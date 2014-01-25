@@ -21,6 +21,7 @@
     <Compile Include="Actions\MoveUpAction.cs" />
     <Compile Include="Actions\PickupDropAction.cs" />
     <Compile Include="Actions\RestartAction.cs" />
+    <Compile Include="Actions\SkipLevelAction.cs" />
     <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="DefaultNetworkAPI.cs" />
     <Compile Include="Entities\BaseNetworkEntity.cs" />

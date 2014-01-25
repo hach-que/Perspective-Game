@@ -9,6 +9,11 @@ namespace Perception
 	{
         public void Handle(IGameContext context, Event @event)
         {
+            if (!(context.World is PerceptionWorld))
+            {
+                return;
+            }
+
             var player = context.World.Entities.OfType<PlayerEntity>().FirstOrDefault(x => x.LocallyOwned);
 
             if (player == null)

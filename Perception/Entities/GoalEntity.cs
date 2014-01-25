@@ -45,6 +45,11 @@ namespace Perception
                 var target = new Vector3(this.X, this.Y, this.Z);
                 var source = new Vector3(player.X, player.Y, player.Z);
 
+                if (!player.IsOnFloor(gameContext))
+                {
+                    continue;
+                }
+
                 if ((target - source).Length() < 1)
                 {
                     ((PerceptionWorld)gameContext.World).InitiateNextLevel();

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Perception
 {
-    public class RestartAction : IEventAction<IGameContext>
+    public class SkipLevelAction : IEventAction<IGameContext>
 	{
         public void Handle(IGameContext context, Event @event)
         {
@@ -17,7 +17,7 @@ namespace Perception
 
             var world = (PerceptionWorld)context.World;
 
-            world.InitiateResetLevel();
+            world.InitiateNextLevel();
         }
 	}
 }
