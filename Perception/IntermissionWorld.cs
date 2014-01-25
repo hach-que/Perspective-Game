@@ -45,9 +45,9 @@ namespace Perception
                 case 1:
                     return "We all see things differently.";
                 case 2:
-                    return "You see more from the mountain.";
+                    return "You see further from the mountain.";
                 case 3:
-                    return "Impossible is a stone's throw away.";
+                    return "Others can help us see.";
                 default:
                     return "???";
             }

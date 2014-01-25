@@ -204,6 +204,7 @@ namespace Perception
                             default:
                                 break;
                         }
+                        break;
                     case 2:
                         switch (levelTile.TX)
                         {
