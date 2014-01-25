@@ -179,11 +179,8 @@ namespace Perception
 
             switch (meta)
             {
-                case "end":
-
-                    // Move to the next level.
-                    world.InitiateNextLevel();
-
+                case "death":
+                    world.InitiateResetLevel();
                     break;
             }
         }

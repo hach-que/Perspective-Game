@@ -28,6 +28,7 @@
     <Compile Include="DefaultNetworkAPI.cs" />
     <Compile Include="Entities\BaseNetworkEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
+    <Compile Include="Entities\GoalEntity.cs" />
     <Compile Include="Entities\KeyEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="Entities\SpawnEntity.cs" />

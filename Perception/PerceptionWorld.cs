@@ -46,6 +46,12 @@ namespace Perception
 
         private readonly ILevelManager m_LevelManager;
 
+        private bool m_MoveToNextLevel;
+
+        private bool m_MoveToSameLevel;
+
+        private int m_CurrentLevel;
+
         public PerceptionWorld(
             IKernel kernel,
             I2DRenderUtilities twoDRenderUtilities,
@@ -75,14 +81,22 @@ namespace Perception
             this.m_GameBoardTY = new int[10, 10];
 
             this.m_LevelSuffix = this.m_NetworkAPI.WasJoin ? 'b' : 'a';
+            this.m_CurrentLevel = level;
 
-            this.LoadLevel(1);
+            this.LoadLevel(level);
 
             this.m_NetworkAPI.ListenForMessage(
                 "next level",
                 a =>
                 {
                     this.HandleNextLevel();
+                });
+
+            this.m_NetworkAPI.ListenForMessage(
+                "reset level",
+                a =>
+                {
+                    this.HandleResetLevel();
                 });
 
             this.m_NetworkAPI.ListenForMessage(
@@ -109,6 +123,15 @@ namespace Perception
 
         public List<IEntity> Entities { get; private set; }
 
+        public void InitiateResetLevel()
+        {
+            this.m_NetworkAPI.SendMessage(
+                "reset level",
+                "");
+
+            this.HandleResetLevel();
+        }
+
         public void InitiateNextLevel()
         {
             this.m_NetworkAPI.SendMessage(
@@ -120,6 +143,12 @@ namespace Perception
 
         public void HandleNextLevel()
         {
+            this.m_MoveToNextLevel = true;
+        }
+
+        public void HandleResetLevel()
+        {
+            this.m_MoveToSameLevel = true;
         }
 
         public void Dispose()
@@ -153,6 +182,12 @@ namespace Perception
                             case 2:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 3;
                                 break;
+                            case 3:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 3;
+                                break;
+                            case 4:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 5;
+                                break;
                             default:
                                 break;
                         }
@@ -160,6 +195,10 @@ namespace Perception
                     case 2:
                         switch (levelTile.TX)
                         {
+                            case 4:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 0;
+                                this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "death";
+                                break;
                             case 7:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
                                 this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "end";
@@ -179,7 +218,11 @@ namespace Perception
             {
                 if (this.m_NetworkAPI.WasJoin)
                 {
-                    entity.LocallyOwned = false;
+                    entity.LocallyOwned = entity.JoinShouldOwn;
+                }
+                else
+                {
+                    entity.LocallyOwned = !entity.JoinShouldOwn;
                 }
             }
 
@@ -300,6 +343,18 @@ W/A/S/D - Throw";
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
             this.m_NetworkAPI.Update();
+
+            if (this.m_MoveToNextLevel)
+            {
+                gameContext.SwitchWorld<IWorldFactory>(x => x.CreateIntermissionWorld(this.m_CurrentLevel + 1));
+                return;
+            }
+
+            if (this.m_MoveToSameLevel)
+            {
+                gameContext.SwitchWorld<IWorldFactory>(x => x.CreateIntermissionWorld(this.m_CurrentLevel));
+                return;
+            }
 
             if (this.m_NetworkAPI.Disconnected)
             {

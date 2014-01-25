@@ -61,6 +61,12 @@ namespace Perception
                 });
         }
 
+        public bool JoinShouldOwn
+        {
+            get;
+            protected set;
+        }
+
         public int ID
         {
             get;

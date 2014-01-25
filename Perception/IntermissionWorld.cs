@@ -44,6 +44,8 @@ namespace Perception
             {
                 case 1:
                     return "We all see things differently.";
+                case 2:
+                    return "You see more from the mountain.";
                 default:
                     return "???";
             }
@@ -100,7 +102,7 @@ namespace Perception
             if (this.m_Ticks > 60f * 5)
             {
                 gameContext.SwitchWorld<IWorldFactory>(
-                    x => x.CreatePerceptionWorld(1));
+                    x => x.CreatePerceptionWorld(this.m_ApproachingLevel));
             }
 
             this.m_NetworkAPI.Update();
