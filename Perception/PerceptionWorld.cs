@@ -313,8 +313,8 @@ namespace Perception
                 var instructions = 
                     @"Up/Down/Left/Right - Move
 Z - Jump
-X - Pickup / Drop
-W/A/S/D - Throw";
+X - Pickup / Drop / Throw
+R - Restart";
 
                 var lines = instructions.Split('\n');
                 var i = 0;

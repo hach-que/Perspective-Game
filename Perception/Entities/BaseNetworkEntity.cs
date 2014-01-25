@@ -125,9 +125,12 @@ namespace Perception
         {
             if (this.LocallyOwned)
             {
-                this.X += this.XSpeed / 5f;
-                this.Y += this.YSpeed / 5f;
-                this.Z += this.ZSpeed / 5f;
+                if (this.CanMoveTo(gameContext, this.X + this.XSpeed / 5f, this.Z + this.ZSpeed / 5f))
+                {
+                    this.X += this.XSpeed / 5f;
+                    this.Y += this.YSpeed / 5f;
+                    this.Z += this.ZSpeed / 5f;
+                }
 
                 if (Math.Abs(this.XSpeed) <= 0.05f)
                 {

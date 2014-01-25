@@ -65,7 +65,7 @@ namespace Perception
                     {
                         this.Open = true;
                         var key = player.HeldObject;
-                        player.Drop();
+                        player.Throw();
 
                         gameContext.World.Entities.Remove(key);
 

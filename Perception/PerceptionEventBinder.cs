@@ -14,10 +14,7 @@ namespace Perception
             this.Bind<KeyHeldEvent>(x => x.Key == Keys.Down).To<MoveDownAction>();
             this.Bind<KeyPressEvent>(x => x.Key == Keys.Z).To<JumpAction>();
             this.Bind<KeyPressEvent>(x => x.Key == Keys.X).To<PickupDropAction>();
-            this.Bind<KeyPressEvent>(x => x.Key == Keys.A).To<ThrowLeftAction>();
-            this.Bind<KeyPressEvent>(x => x.Key == Keys.D).To<ThrowRightAction>();
-            this.Bind<KeyPressEvent>(x => x.Key == Keys.W).To<ThrowUpAction>();
-            this.Bind<KeyPressEvent>(x => x.Key == Keys.S).To<ThrowDownAction>();
+            this.Bind<KeyPressEvent>(x => x.Key == Keys.R).To<RestartAction>();
         }
     }
 }

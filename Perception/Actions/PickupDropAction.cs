@@ -19,7 +19,7 @@ namespace Perception
 
             if (player.HoldingObject)
             {
-                player.Drop();
+                player.Throw();
                 return;
             }
 
@@ -30,6 +30,11 @@ namespace Perception
             foreach (var entity in context.World.Entities.OfType<BaseNetworkEntity>())
             {
                 var source = new Vector3(entity.X, entity.Y, entity.Z);
+
+                if (!entity.CanPickup)
+                {
+                    continue;
+                }
 
                 if ((target - source).LengthSquared() < min)
                 {

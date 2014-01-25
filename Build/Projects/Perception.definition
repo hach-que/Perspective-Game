@@ -20,10 +20,7 @@
     <Compile Include="Actions\MoveRightAction.cs" />
     <Compile Include="Actions\MoveUpAction.cs" />
     <Compile Include="Actions\PickupDropAction.cs" />
-    <Compile Include="Actions\ThrowDownAction.cs" />
-    <Compile Include="Actions\ThrowLeftAction.cs" />
-    <Compile Include="Actions\ThrowRightAction.cs" />
-    <Compile Include="Actions\ThrowUpAction.cs" />
+    <Compile Include="Actions\RestartAction.cs" />
     <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="DefaultNetworkAPI.cs" />
     <Compile Include="Entities\BaseNetworkEntity.cs" />

@@ -31,6 +31,7 @@ namespace Perception
             this.X = x / 16f + 0.5f;
             this.Z = y / 16f + 0.5f;
             this.JoinShouldOwn = Convert.ToBoolean(attributes["JoinOwns"]);
+            this.CanPickup = true;
 
             this.m_KeyModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Key");
         }

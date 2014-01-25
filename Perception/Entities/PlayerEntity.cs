@@ -76,6 +76,30 @@ namespace Perception
             set;
         }
 
+        public float InferredXSpeed
+        {
+            get;
+            set;
+        }
+
+        public float InferredZSpeed
+        {
+            get;
+            set;
+        }
+
+        public float LastX
+        {
+            get;
+            set;
+        }
+
+        public float LastZ
+        {
+            get;
+            set;
+        }
+
         public BaseNetworkEntity HeldObject
         {
             get;
@@ -102,12 +126,7 @@ namespace Perception
             this.HeldObject = entity;
         }
 
-        public void Drop()
-        {
-            this.HeldObject = null;
-        }
-
-        public void Throw(float x, float y, float z)
+        public void Throw()
         {
             if (this.HeldObject == null)
             {
@@ -116,15 +135,18 @@ namespace Perception
 
             var entity = this.HeldObject;
 
-            this.Drop();
+            entity.XSpeed = -this.InferredXSpeed * 6f;
+            entity.YSpeed = 0.5f + this.YSpeed;
+            entity.ZSpeed = -this.InferredZSpeed * 6f;
 
-            entity.XSpeed = x;
-            entity.YSpeed = y;
-            entity.ZSpeed = z;
+            this.HeldObject = null;
         }
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
+            this.InferredXSpeed = this.LastX - this.X;
+            this.InferredZSpeed = this.LastZ - this.Z;
+
             if (this.LocallyOwned)
             {
                 this.Y += this.YSpeed / 5f;
@@ -145,7 +167,7 @@ namespace Perception
                 {
                     if (!this.HeldObject.LocallyOwned)
                     {
-                        this.Drop();
+                        this.Throw();
                     }
                     else
                     {
@@ -164,6 +186,9 @@ namespace Perception
                     this.HandleMeta(gameContext);
                 }
             }
+
+            this.LastX = this.X;
+            this.LastZ = this.Z;
         }
 
         private void HandleMeta(IGameContext gameContext)
