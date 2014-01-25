@@ -15,7 +15,7 @@
     <tile x="1" y="2" tx="3" ty="0" />
     <tile x="1" y="3" tx="3" ty="0" />
     <tile x="1" y="4" tx="4" ty="0" />
-    <tile x="1" y="5" tx="4" ty="0" />
+    <tile x="1" y="5" tx="3" ty="0" />
     <tile x="1" y="6" tx="3" ty="0" />
     <tile x="1" y="7" tx="3" ty="0" />
     <tile x="1" y="8" tx="4" ty="0" />
