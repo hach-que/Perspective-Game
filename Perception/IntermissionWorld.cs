@@ -93,16 +93,21 @@ Artwork: Olek Kalinowski";
 
             var color = new Color(0f, 0f, 0f, 1f - fadeValue);
 
-            this.m_2DRenderUtilities.RenderText(
-                renderContext,
-                new Vector2(
-                    renderContext.GraphicsDevice.Viewport.Width / 2,
-                    renderContext.GraphicsDevice.Viewport.Height / 2),
-                GetLevelMessage(),
-                this.m_MessageFont,
-                horizontalAlignment: HorizontalAlignment.Center,
-                verticalAlignment: VerticalAlignment.Center,
-                textColor: Color.White);
+            var i = 0;
+            foreach (var line in this.GetLevelMessage().Split('\n'))
+            {
+                this.m_2DRenderUtilities.RenderText(
+                    renderContext,
+                    new Vector2(
+                        renderContext.GraphicsDevice.Viewport.Width / 2,
+                        renderContext.GraphicsDevice.Viewport.Height / 2 - this.GetLevelMessage().Split('\n').Length / 2f + i * 40),
+                    line,
+                    this.m_MessageFont,
+                    horizontalAlignment: HorizontalAlignment.Center,
+                    verticalAlignment: VerticalAlignment.Center,
+                    textColor: Color.White);
+                i++;
+            }
 
             this.m_2DRenderUtilities.RenderRectangle(
                 renderContext,

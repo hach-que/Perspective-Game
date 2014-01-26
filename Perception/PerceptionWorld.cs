@@ -191,7 +191,11 @@ namespace Perception
                             case 5:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 5;
                                 break;
+                            case 7:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 6;
+                                break;
                             default:
+                                throw new Exception(levelTile.TX + ", " + levelTile.TY + " not handled.");
                                 break;
                         }
                         break;
@@ -201,6 +205,9 @@ namespace Perception
                             case 1:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
                                 break;
+                            case 5:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 4;
+                                break;
                             case 6:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 4;
                                 break;
@@ -208,6 +215,7 @@ namespace Perception
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 7;
                                 break;
                             default:
+                                throw new Exception(levelTile.TX + ", " + levelTile.TY + " not handled.");
                                 break;
                         }
                         break;
@@ -222,14 +230,15 @@ namespace Perception
                                 this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "death";
                                 break;
                             case 7:
-                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
-                                this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "end";
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 11;
                                 break;
                             default:
+                                throw new Exception(levelTile.TX + ", " + levelTile.TY + " not handled.");
                                 break;
                         }
                         break;
                     default:
+                        throw new Exception(levelTile.TX + ", " + levelTile.TY + " not handled.");
                         break;
                 }
             }

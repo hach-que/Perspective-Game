@@ -178,9 +178,17 @@ namespace Perception
                 a => !(this.X + relX > a.X + a.Width || this.X + relX + this.Width < a.X || 
                     this.Z + relZ > a.Z + a.Depth || this.Z + relZ + this.Depth < a.Z)))
             {
-                if (this.Y > crate.Y)
+                if (this.Y > crate.Y + 0.9f)
                 {
                     continue;
+                }
+
+                if (!crate.LocallyOwned)
+                {
+                    this.m_NetworkAPI.SendMessage(
+                        "take object",
+                        crate.ID + "");
+                    crate.LocallyOwned = true;
                 }
 
                 if (crate.CanMoveTo(gameContext, crate.X + relX, crate.Z + relZ))
