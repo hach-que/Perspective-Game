@@ -2,6 +2,7 @@ using System;
 using Protogame;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.Xna.Framework;
 
 namespace Perception
 {
@@ -9,12 +10,24 @@ namespace Perception
     {
         private IGameContext m_LastGameContext;
 
+        private TextureAsset m_LogoTexture;
+
+        private I2DRenderUtilities m_2DRenderUtilities;
+
         public void RenderBelow(IGameContext gameContext, IRenderContext renderContext)
         {
         }
 
         public void RenderAbove(IGameContext gameContext, IRenderContext renderContext)
         {
+            if (!renderContext.Is3DContext)
+            {
+                this.m_2DRenderUtilities.RenderTexture(
+                    renderContext,
+                    new Vector2(0, 0),
+                    this.m_LogoTexture,
+                    size: new Vector2(600, 100));
+            }
         }
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
@@ -34,8 +47,12 @@ namespace Perception
 
         private readonly IWorldFactory m_WorldFactory;
 
-        public MenuWorld(ISkin skin, IWorldFactory worldFactory)
+        public MenuWorld(ISkin skin, IWorldFactory worldFactory, IAssetManagerProvider assetManagerProvider, I2DRenderUtilities twodRenderUtilities)
         {
+            this.m_2DRenderUtilities = twodRenderUtilities;
+
+            this.m_LogoTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Logo");
+
             this.m_WorldFactory = worldFactory;
 
             this.Entities = new List<IEntity>();
@@ -67,7 +84,7 @@ namespace Perception
 
             var vertical = new VerticalContainer();
             vertical.AddChild(new EmptyContainer(), "*");
-            vertical.AddChild(new Label { Text = "Perspective" }, "25");
+            vertical.AddChild(new Label { Text = "" }, "25");
             vertical.AddChild(new EmptyContainer(), "*");
             vertical.AddChild(startServer, "25");
             vertical.AddChild(new EmptyContainer(), "*");

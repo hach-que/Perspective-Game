@@ -10,7 +10,7 @@ namespace Perception
         {
             get
             {
-                return new Color(96, 96, 96);
+                return new Color(0, 0, 0);
             }
         }
 
