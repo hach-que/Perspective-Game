@@ -11,6 +11,8 @@ namespace Perception
     {
         private ModelAsset m_KeyModel;
 
+        private TextureAsset m_KeyTexture;
+
         private int midx;
 
         public KeyEntity(
@@ -33,6 +35,7 @@ namespace Perception
             this.JoinShouldOwn = Convert.ToBoolean(attributes["JoinOwns"]);
             this.CanPickup = true;
 
+            this.m_KeyTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Key");
             this.m_KeyModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Key");
         }
 
@@ -45,7 +48,7 @@ namespace Perception
 
             midx++;
 
-            renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
+            renderContext.SetActiveTexture(this.m_KeyTexture.Texture);
 
             this.m_KeyModel.Draw(
                 renderContext,

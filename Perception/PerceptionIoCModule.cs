@@ -27,6 +27,7 @@ namespace Perception
             this.Bind<IEntity>().To<SpawnEntity>().Named("RedSpawn");
             this.Bind<IEntity>().To<SpawnEntity>().Named("BlueSpawn");
             this.Bind<IEntity>().To<GoalEntity>().Named("Goal");
+            this.Bind<IEntity>().To<CrateEntity>().Named("Crate");
         }
     }
 }

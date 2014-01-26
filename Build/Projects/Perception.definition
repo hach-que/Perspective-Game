@@ -24,7 +24,9 @@
     <Compile Include="Actions\SkipLevelAction.cs" />
     <Compile Include="DefaultCubeRenderer.cs" />
     <Compile Include="DefaultNetworkAPI.cs" />
+    <Compile Include="Entities\BaseCollisionEntity.cs" />
     <Compile Include="Entities\BaseNetworkEntity.cs" />
+    <Compile Include="Entities\CrateEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\GoalEntity.cs" />
     <Compile Include="Entities\KeyEntity.cs" />

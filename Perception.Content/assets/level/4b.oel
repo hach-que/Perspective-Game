@@ -1,0 +1,112 @@
+<level width="160" height="160">
+  <Tiles tileset="NewTileset0" exportMode="XMLCoords">
+    <tile x="0" y="0" tx="2" ty="0" />
+    <tile x="0" y="1" tx="2" ty="0" />
+    <tile x="0" y="2" tx="2" ty="0" />
+    <tile x="0" y="3" tx="4" ty="2" />
+    <tile x="0" y="4" tx="4" ty="2" />
+    <tile x="0" y="5" tx="4" ty="2" />
+    <tile x="0" y="6" tx="4" ty="2" />
+    <tile x="0" y="7" tx="4" ty="2" />
+    <tile x="0" y="8" tx="4" ty="0" />
+    <tile x="0" y="9" tx="2" ty="0" />
+    <tile x="1" y="0" tx="2" ty="0" />
+    <tile x="1" y="1" tx="2" ty="0" />
+    <tile x="1" y="2" tx="2" ty="0" />
+    <tile x="1" y="3" tx="4" ty="2" />
+    <tile x="1" y="4" tx="4" ty="2" />
+    <tile x="1" y="5" tx="4" ty="2" />
+    <tile x="1" y="6" tx="4" ty="2" />
+    <tile x="1" y="7" tx="4" ty="2" />
+    <tile x="1" y="8" tx="4" ty="0" />
+    <tile x="1" y="9" tx="2" ty="0" />
+    <tile x="2" y="0" tx="2" ty="0" />
+    <tile x="2" y="1" tx="2" ty="0" />
+    <tile x="2" y="2" tx="2" ty="0" />
+    <tile x="2" y="3" tx="4" ty="2" />
+    <tile x="2" y="4" tx="4" ty="2" />
+    <tile x="2" y="5" tx="4" ty="2" />
+    <tile x="2" y="6" tx="4" ty="2" />
+    <tile x="2" y="7" tx="4" ty="2" />
+    <tile x="2" y="8" tx="4" ty="0" />
+    <tile x="2" y="9" tx="2" ty="0" />
+    <tile x="3" y="0" tx="2" ty="0" />
+    <tile x="3" y="1" tx="2" ty="0" />
+    <tile x="3" y="2" tx="2" ty="0" />
+    <tile x="3" y="3" tx="4" ty="2" />
+    <tile x="3" y="4" tx="4" ty="2" />
+    <tile x="3" y="5" tx="4" ty="2" />
+    <tile x="3" y="6" tx="4" ty="2" />
+    <tile x="3" y="7" tx="4" ty="2" />
+    <tile x="3" y="8" tx="4" ty="2" />
+    <tile x="3" y="9" tx="2" ty="0" />
+    <tile x="4" y="0" tx="2" ty="0" />
+    <tile x="4" y="1" tx="2" ty="0" />
+    <tile x="4" y="2" tx="2" ty="0" />
+    <tile x="4" y="3" tx="4" ty="2" />
+    <tile x="4" y="4" tx="4" ty="2" />
+    <tile x="4" y="5" tx="4" ty="2" />
+    <tile x="4" y="6" tx="4" ty="2" />
+    <tile x="4" y="7" tx="4" ty="2" />
+    <tile x="4" y="8" tx="4" ty="2" />
+    <tile x="4" y="9" tx="2" ty="0" />
+    <tile x="5" y="0" tx="2" ty="0" />
+    <tile x="5" y="1" tx="2" ty="0" />
+    <tile x="5" y="2" tx="2" ty="0" />
+    <tile x="5" y="3" tx="4" ty="2" />
+    <tile x="5" y="4" tx="4" ty="2" />
+    <tile x="5" y="5" tx="4" ty="2" />
+    <tile x="5" y="6" tx="4" ty="2" />
+    <tile x="5" y="7" tx="4" ty="2" />
+    <tile x="5" y="8" tx="4" ty="2" />
+    <tile x="5" y="9" tx="2" ty="0" />
+    <tile x="6" y="0" tx="2" ty="0" />
+    <tile x="6" y="1" tx="2" ty="0" />
+    <tile x="6" y="2" tx="2" ty="0" />
+    <tile x="6" y="3" tx="2" ty="0" />
+    <tile x="6" y="4" tx="4" ty="2" />
+    <tile x="6" y="5" tx="4" ty="2" />
+    <tile x="6" y="6" tx="4" ty="2" />
+    <tile x="6" y="7" tx="4" ty="2" />
+    <tile x="6" y="8" tx="4" ty="2" />
+    <tile x="6" y="9" tx="2" ty="0" />
+    <tile x="7" y="0" tx="2" ty="0" />
+    <tile x="7" y="1" tx="2" ty="0" />
+    <tile x="7" y="2" tx="2" ty="0" />
+    <tile x="7" y="3" tx="2" ty="0" />
+    <tile x="7" y="4" tx="0" ty="0" />
+    <tile x="7" y="5" tx="4" ty="2" />
+    <tile x="7" y="6" tx="4" ty="2" />
+    <tile x="7" y="7" tx="4" ty="2" />
+    <tile x="7" y="8" tx="1" ty="0" />
+    <tile x="7" y="9" tx="2" ty="0" />
+    <tile x="8" y="0" tx="2" ty="0" />
+    <tile x="8" y="1" tx="2" ty="0" />
+    <tile x="8" y="2" tx="2" ty="0" />
+    <tile x="8" y="3" tx="2" ty="0" />
+    <tile x="8" y="4" tx="4" ty="2" />
+    <tile x="8" y="5" tx="4" ty="2" />
+    <tile x="8" y="6" tx="4" ty="2" />
+    <tile x="8" y="7" tx="4" ty="2" />
+    <tile x="8" y="8" tx="4" ty="2" />
+    <tile x="8" y="9" tx="2" ty="0" />
+    <tile x="9" y="0" tx="4" ty="2" />
+    <tile x="9" y="1" tx="4" ty="2" />
+    <tile x="9" y="2" tx="4" ty="2" />
+    <tile x="9" y="3" tx="4" ty="2" />
+    <tile x="9" y="4" tx="4" ty="2" />
+    <tile x="9" y="5" tx="4" ty="2" />
+    <tile x="9" y="6" tx="4" ty="2" />
+    <tile x="9" y="7" tx="4" ty="2" />
+    <tile x="9" y="8" tx="4" ty="2" />
+    <tile x="9" y="9" tx="4" ty="2" />
+  </Tiles>
+  <Entities>
+    <Crate id="0" x="48" y="16" JoinOwns="True" NetworkID="1" />
+    <RedSpawn id="1" x="16" y="16" />
+    <Goal id="2" x="0" y="144" JoinOwns="True" NetworkID="5" />
+    <Key id="3" x="64" y="16" NetworkID="2" JoinOwns="True" />
+    <Crate id="4" x="112" y="32" JoinOwns="False" NetworkID="3" />
+    <BlueSpawn id="5" x="16" y="32" />
+  </Entities>
+</level>

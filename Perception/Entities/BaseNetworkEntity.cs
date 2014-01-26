@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Perception
 {
-    public class BaseNetworkEntity : IEntity
+    public class BaseNetworkEntity : BaseCollisionEntity
     {
         protected readonly I2DRenderUtilities m_2DRenderUtilities;
 
@@ -79,31 +79,7 @@ namespace Perception
             set;
         }
 
-        public float X
-        {
-            get;
-            set;
-        }
-
-        public float Y
-        {
-            get;
-            set;
-        }
-
-        public float Z
-        {
-            get;
-            set;
-        }
-
         public float XSpeed
-        {
-            get;
-            set;
-        }
-
-        public float YSpeed
         {
             get;
             set;
@@ -121,7 +97,13 @@ namespace Perception
             set;
         }
 
-        public virtual void Update(IGameContext gameContext, IUpdateContext updateContext)
+        public bool CanPush
+        {
+            get;
+            set;
+        }
+
+        public override void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
             if (this.LocallyOwned)
             {
@@ -179,57 +161,7 @@ namespace Perception
             }
         }
 
-        public bool CanMoveTo(IGameContext gameContext, float x, float z)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            try
-            {
-                var height = world.GameBoard[(int)Math.Round(x - 0.5f), (int)Math.Round(z - 0.5f)];
-
-                return this.Y >= height;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
-        }
-
-        public bool IsOnFloor(IGameContext gameContext)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            try
-            {
-                var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
-
-                return this.Y == height;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
-        }
-
-        private void AdjustHeight(IGameContext gameContext)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            var height = 0;
-            try
-            {
-                height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                height = 0;
-            }
-
-            if (this.Y < height)
-            {
-                this.Y = height;
-                this.YSpeed = 0;
-            }
-        }
-
-        public virtual void Render(IGameContext gameContext, IRenderContext renderContext)
+        public override void Render(IGameContext gameContext, IRenderContext renderContext)
         {
             if (renderContext.Is3DContext)
             {

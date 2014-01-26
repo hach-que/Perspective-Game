@@ -13,6 +13,8 @@ namespace Perception
 
         private ModelAsset m_DoorFrameModel;
 
+        private TextureAsset m_DoorTexture;
+
         private int m_Rotation;
 
         public DoorEntity(
@@ -35,8 +37,12 @@ namespace Perception
             this.JoinShouldOwn = Convert.ToBoolean(attributes["JoinOwns"]);
             this.CanPickup = false;
 
+            this.Width = 0.9f;
+            this.Depth = 0.9f;
+
             this.m_Rotation = Convert.ToInt32(attributes["Rotation"]);
 
+            this.m_DoorTexture = assetManagerProvider.GetAssetManager().Get<TextureAsset>("texture.Door");
             this.m_DoorModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.Door");
             this.m_DoorFrameModel = assetManagerProvider.GetAssetManager().Get<ModelAsset>("model.DoorFrame");
         }
@@ -45,6 +51,26 @@ namespace Perception
         {
             get;
             set;
+        }
+
+        public override void AdjustHeight(IGameContext gameContext)
+        {
+            var world = (PerceptionWorld)gameContext.World;
+            var height = 0;
+            try
+            {
+                height = world.GameBoard[(int)Math.Round(this.X - 0.5f + 0.01f), (int)Math.Round(this.Z - 0.5f + 0.01f)];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                height = 0;
+            }
+
+            if (this.Y < height && height != 0)
+            {
+                this.Y = height;
+                this.YSpeed = 0;
+            }
         }
 
         public override void Update(IGameContext gameContext, IUpdateContext updateContext)
@@ -90,7 +116,7 @@ namespace Perception
                 return;
             }
 
-            renderContext.SetActiveTexture(renderContext.SingleWhitePixel);
+            renderContext.SetActiveTexture(this.m_DoorTexture.Texture);
 
             var midx = this.Open ? 90 : 0;
 

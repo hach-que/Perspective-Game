@@ -30,11 +30,11 @@ namespace Perception
 
             var min = 10000f;
             BaseNetworkEntity entityChosen = null;
-            var target = new Vector3(player.X, player.Y, player.Z);
+            var target = new Vector3(player.X + player.Width / 2f, player.Y, player.Z + player.Depth / 2f);
 
             foreach (var entity in context.World.Entities.OfType<BaseNetworkEntity>())
             {
-                var source = new Vector3(entity.X, entity.Y, entity.Z);
+                var source = new Vector3(entity.X + entity.Width / 2f, entity.Y, entity.Z + entity.Width / 2f);
 
                 if (!entity.CanPickup)
                 {

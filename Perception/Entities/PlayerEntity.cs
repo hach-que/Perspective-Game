@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Perception
 {
-    public class PlayerEntity : IEntity
+    public class PlayerEntity : BaseCollisionEntity
     {
         private readonly I2DRenderUtilities m_2DRenderUtilities;
 
@@ -31,6 +31,9 @@ namespace Perception
 
             this.LocallyOwned = locallyOwned;
 
+            this.Width = 0.5f;
+            this.Depth = 0.5f;
+
             if (!this.LocallyOwned)
             {
                 networkAPI.ListenForMessage(
@@ -47,30 +50,6 @@ namespace Perception
         }
 
         public bool LocallyOwned
-        {
-            get;
-            set;
-        }
-
-        public float X
-        {
-            get;
-            set;
-        }
-
-        public float Y
-        {
-            get;
-            set;
-        }
-
-        public float Z
-        {
-            get;
-            set;
-        }
-
-        public float YSpeed
         {
             get;
             set;
@@ -142,7 +121,7 @@ namespace Perception
             this.HeldObject = null;
         }
 
-        public void Update(IGameContext gameContext, IUpdateContext updateContext)
+        public override void Update(IGameContext gameContext, IUpdateContext updateContext)
         {
             this.InferredXSpeed = this.LastX - this.X;
             this.InferredZSpeed = this.LastZ - this.Z;
@@ -171,9 +150,9 @@ namespace Perception
                     }
                     else
                     {
-                        this.HeldObject.X = this.X;
-                        this.HeldObject.Y = this.Y;
-                        this.HeldObject.Z = this.Z;
+                        this.HeldObject.X = this.X + 0.25f;
+                        this.HeldObject.Y = this.Y + 0.25f;
+                        this.HeldObject.Z = this.Z + 0.25f;
 
                         this.HeldObject.XSpeed = 0;
                         this.HeldObject.YSpeed = 0;
@@ -191,6 +170,40 @@ namespace Perception
             this.LastZ = this.Z;
         }
 
+        public bool CheckAndImpact(IGameContext gameContext, float relX, float relY, float relZ)
+        {
+            // called when the player has moved and we need to impact any crates that
+            // might be in our way
+            foreach (var crate in gameContext.World.Entities.OfType<CrateEntity>().Where(
+                a => !(this.X + relX > a.X + a.Width || this.X + relX + this.Width < a.X || 
+                    this.Z + relZ > a.Z + a.Depth || this.Z + relZ + this.Depth < a.Z)))
+            {
+                if (this.Y > crate.Y)
+                {
+                    continue;
+                }
+
+                if (crate.CanMoveTo(gameContext, crate.X + relX, crate.Z + relZ))
+                {
+                    crate.X += relX;
+                    crate.Z += relZ;
+
+                    if (!this.CanMoveTo(gameContext, this.X + relX, this.Z + relZ))
+                    {
+                        // extra adjustment for floating point errors
+                        crate.X += relX;
+                        crate.Z += relZ;
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
         private void HandleMeta(IGameContext gameContext)
         {
             var world = (PerceptionWorld)gameContext.World;
@@ -205,73 +218,23 @@ namespace Perception
             switch (meta)
             {
                 case "death":
-                    world.InitiateResetLevel();
+                    if (this.Y <= 0)
+                    {
+                        world.InitiateResetLevel();
+                    }
+
                     break;
             }
         }
 
-        public bool CanMoveTo(IGameContext gameContext, float x, float z)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            try
-            {
-                var height = world.GameBoard[(int)Math.Round(x - 0.5f), (int)Math.Round(z - 0.5f)];
-
-                // check if there are doors there
-                var door = world.Entities.OfType<DoorEntity>().FirstOrDefault(a => a.X <= x + 0.5f && a.Z <= z + 0.5f && a.X + 1f > x + 0.5f && a.Z + 1f > z + 0.5f);
-                if (door != null && !door.Open)
-                {
-                    return false;
-                }
-
-                return this.Y >= height;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
-        }
-
-        public bool IsOnFloor(IGameContext gameContext)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            try
-            {
-                var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
-
-                if (height == 0)
-                {
-                    return this.Y < -10;
-                }
-
-                return this.Y == height;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
-        }
-
-        private void AdjustHeight(IGameContext gameContext)
-        {
-            var world = (PerceptionWorld)gameContext.World;
-            var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
-
-            if (this.Y < height && height != 0)
-            {
-                this.Y = height;
-                this.YSpeed = 0;
-            }
-        }
-
-        public void Render(IGameContext gameContext, IRenderContext renderContext)
+        public override void Render(IGameContext gameContext, IRenderContext renderContext)
         {
             if (renderContext.Is3DContext)
             {
                 this.m_CubeRenderer.RenderCube(
                     renderContext,
                     Matrix.CreateScale(0.5f) *
-                    Matrix.CreateTranslation(new Vector3(this.X - 0.25f, this.Y, this.Z - 0.25f)),
+                    Matrix.CreateTranslation(new Vector3(this.X, this.Y, this.Z)),
                     this.m_PlayerTexture,
                     new Vector2(0, 0),
                     new Vector2(1, 1));
@@ -282,7 +245,7 @@ namespace Perception
 
                 try
                 {
-                    var height = world.GameBoard[(int)Math.Round(this.X - 0.5f), (int)Math.Round(this.Z - 0.5f)];
+                    var height = this.GetHeight(gameContext, this.X, this.Z);
 
                     if (height == 0 && this.Y < 0)
                     {

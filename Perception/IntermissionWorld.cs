@@ -19,6 +19,8 @@ namespace Perception
 
         private int m_ApproachingLevel;
 
+        private bool m_NoNextLevel;
+
         public IntermissionWorld(
             IKernel kernel,
             INetworkAPI networkAPI,
@@ -36,10 +38,19 @@ namespace Perception
             this.m_ApproachingLevel = level;
 
             this.m_NetworkAPI.ClearAllListeners();
+
+            this.m_NoNextLevel =
+                (assetManagerProvider.GetAssetManager().TryGet<LevelAsset>("level." + level + "a") == null);
         }
 
         public string GetLevelMessage()
         {
+            if (this.m_NoNextLevel)
+            {
+                return @"Programming: James Rhodes
+Artwork: Olek Kalinowski";
+            }
+
             switch (this.m_ApproachingLevel)
             {
                 case 1:
@@ -47,7 +58,11 @@ namespace Perception
                 case 2:
                     return "You see further from the mountain.";
                 case 3:
-                    return "Others can help us see.";
+                    return "Nobody is wrong.";
+                case 4:
+                    return "Everyone is right.";
+                case 5:
+                    return "Perspective.";
                 default:
                     return "???";
             }
@@ -103,8 +118,16 @@ namespace Perception
         {
             if (this.m_Ticks > 60f * 5)
             {
-                gameContext.SwitchWorld<IWorldFactory>(
-                    x => x.CreatePerceptionWorld(this.m_ApproachingLevel));
+                if (this.m_NoNextLevel)
+                {
+                    gameContext.Game.Exit();
+                    return;
+                }
+                else
+                {
+                    gameContext.SwitchWorld<IWorldFactory>(
+                        x => x.CreatePerceptionWorld(this.m_ApproachingLevel));
+                }
             }
 
             this.m_NetworkAPI.Update();

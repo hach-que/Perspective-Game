@@ -188,6 +188,9 @@ namespace Perception
                             case 4:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 5;
                                 break;
+                            case 5:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 5;
+                                break;
                             default:
                                 break;
                         }
@@ -195,6 +198,9 @@ namespace Perception
                     case 1:
                         switch (levelTile.TX)
                         {
+                            case 1:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 1;
+                                break;
                             case 6:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 4;
                                 break;
@@ -208,6 +214,9 @@ namespace Perception
                     case 2:
                         switch (levelTile.TX)
                         {
+                            case 2:
+                                this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 2;
+                                break;
                             case 4:
                                 this.m_GameBoard[(int)levelTile.X, (int)levelTile.Y] = 0;
                                 this.m_GameBoardMeta[(int)levelTile.X, (int)levelTile.Y] = "death";
@@ -250,17 +259,17 @@ namespace Perception
                         if (check)
                         {
                             this.m_MyPlayer = this.m_EntityFactory.CreatePlayerEntity(this.m_NetworkAPI.WasJoin, true);
-                            this.m_MyPlayer.X = entity.X + 0.5f;
+                            this.m_MyPlayer.X = entity.X + 0.25f;
                             this.m_MyPlayer.Y = 1f;
-                            this.m_MyPlayer.Z = entity.Z + 0.5f;
+                            this.m_MyPlayer.Z = entity.Z + 0.25f;
                             this.Entities.Add(this.m_MyPlayer);
                         }
                         else
                         {
                             this.m_OtherPlayer = this.m_EntityFactory.CreatePlayerEntity(!this.m_NetworkAPI.WasJoin, false);
-                            this.m_OtherPlayer.X = entity.X + 0.5f;
+                            this.m_OtherPlayer.X = entity.X + 0.25f;
                             this.m_OtherPlayer.Y = 1f;
-                            this.m_OtherPlayer.Z = entity.Z + 0.5f;
+                            this.m_OtherPlayer.Z = entity.Z + 0.25f;
                             this.Entities.Add(this.m_OtherPlayer);
                         }
                         break;

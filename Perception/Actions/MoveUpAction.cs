@@ -21,9 +21,12 @@ namespace Perception
                 return;
             }
 
-            if (player.Z >= 0 && player.CanMoveTo(context, player.X, player.Z - 0.1f))
+            if (player.Z >= 0 && player.CanMoveTo(context, player.X, player.Z - 0.1f, ignoreCrates: true))
             {
-                player.Z -= 0.1f;
+                if (player.CheckAndImpact(context, 0f, 0f, -0.1f))
+                {
+                    player.Z -= 0.1f;
+                }
             }
         }
 	}
