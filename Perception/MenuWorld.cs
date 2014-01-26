@@ -20,14 +20,16 @@ namespace Perception
 
         public void RenderAbove(IGameContext gameContext, IRenderContext renderContext)
         {
-            if (!renderContext.Is3DContext)
+            /*if (!renderContext.Is3DContext)
             {
                 this.m_2DRenderUtilities.RenderTexture(
                     renderContext,
-                    new Vector2(0, 0),
+                    new Vector2(
+                        (renderContext.GraphicsDevice.Viewport.Width - 600) / 2, 
+                        100),
                     this.m_LogoTexture,
                     size: new Vector2(600, 100));
-            }
+            }*/
         }
 
         public void Update(IGameContext gameContext, IUpdateContext updateContext)
@@ -84,7 +86,7 @@ namespace Perception
 
             var vertical = new VerticalContainer();
             vertical.AddChild(new EmptyContainer(), "*");
-            vertical.AddChild(new Label { Text = "" }, "25");
+            vertical.AddChild(new Label { Text = "Perspective" }, "25");
             vertical.AddChild(new EmptyContainer(), "*");
             vertical.AddChild(startServer, "25");
             vertical.AddChild(new EmptyContainer(), "*");
